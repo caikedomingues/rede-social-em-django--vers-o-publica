@@ -18,7 +18,7 @@ from django.contrib.auth.models import User
 # classes models, devemos passar como herança a classe Model da
 # bilboteca models que irá conter os campos necessários para a
 # a criação dos atributos da classe.
-class conta(models.Model):
+class Conta(models.Model):
     
     # Ira conter o nome do criador da conta
     nome = models.CharField(max_length=400)
@@ -38,7 +38,8 @@ class conta(models.Model):
     
     # Vamos criar uma chave estrangeira que irá relacionar o usuário 
     # a conta criada na rede, com o objetivo de atribuir um dono a
-    # conta
+    # conta. O cascade permite que a conta relacionada ao usuário
+    # também seja apagada caso o usuário seja excluido.
     dono_da_conta = models.ForeignKey(User,  on_delete=models.CASCADE)
     
     # Coluna que irá conter todas as contas que seguem o usuário
@@ -175,8 +176,130 @@ class conta(models.Model):
         self.save()
     
     
+
+# Essa classe ira conter todos os posts que o usuário pode fazer em
+# sua conta. Por padrão as classes do models devem herdar os atributos
+# de Model
+class Post(models.Model):
     
+    # Ira associar uma postagem ao uma conta, com o objetivo de atribuir
+    # donos as postagens da rede. O método CASCADE irá possibilitarm que
+    # todas as postagens seja excluidas caso o dono da postagem (conta)
+    # seja removida ou excluida do sistema.
+    dono_postagem = models.ForeignKey(Conta, on_delete=models.CASCADE)
     
+    # Irá conter os textos das postagens. Essa coluna poderá ter valores
+    # brancos que no banco de dados serão representados como nulo.
+    texto = models.CharField(max_length=6000, null = True, blank=True)
     
+    # Ira permitir que o usuário poste fotos e imagens na rede social. Essa coluna poderá receber
+    # valores brancos que no banco de dados serão repreentados como nulo. 
+    imagem_postagem = models.ImageField(upload_to = 'redesocial/ImagemPostagem', null=True, blank=True)
+    
+    # Ira permitir que o usuário poste videos na rede social, essa coluna poderá ter valores
+    # em branco que no banco de dados será representado como nulo. 
+    video = models.FileField(upload_to='redesocial/videos', null=True, blank=True)
+    
+    # Coluna que irá conter a quantidade de curtidas que a postagem recebeu
+    # A coluna terá como valor padrão o 0.
+    curtidas = models.IntegerField(default=0)
+    
+    # Ira conter a quantidade de deslikes que a postagem recebeu.
+    #  A coluna irá receber comp valor padrão de o 0.
+    nao_curtidas = models.IntegerField(default = 0)
+    
+    # Coluna que irá conter a quantidade de comentários do sistema.
+    # A coluna irá ter como valor padrão o 0.
+    quantidade_comentarios = models.IntegerField(default= 0)
+    
+    # Métodos que irão administrar a interação do usuário com a postagem.
+    # Observação: Vale lembrar que os metodos em python em orientação a
+    # objetos devem conter o parametro self que fará referência aos atributos
+    # da classe, é como o this em java orientado a objetos.
+    
+    # Método que irá aumentar a quantidade de curtidas
+    def receberCurtida(self):
+        
+        # Ira atribuir mais 1 na coluna de curtidas
+        self.curtidas = self.curtidas + 1
+        
+        # Ira salvar as alterações
+        self.save()
+    
+    # Ira retirar a curtida do usuário. 
+    def removerCurtida(self):
+        
+        # Irá remover menos 1 da contagem de curtidas. 
+        self.curtidas = self.curtidas - 1
+
+        # Irá salvar as alterações no banco de dados.
+        self.save()
+    
+    # Irá adicionar deslikes na postagem
+    def receberDeslike(self):
+        
+        # Ira adiconar mais 1 na contagem de deslikes
+        self.nao_curtidas = self.nao_curtidas + 1
+        
+        # Ira salvar as alterações no banco de dados
+        self.save()
+    
+
+    # Ira diminuir a quantidade de deslikes
+    def removerDeslike(self):
+        
+        # Ira diminuir a contagem de deslikes
+        self.nao_curtidas = self.nao_curtidas - 1
+         
+         # Ira salvar as alterações no banco de dados
+        self.save()
+    
+    # Ira aumentar a quantidade de comentários feitos no post
+    def adicionarQuantidadeComentario(self):
+        
+        # Ira somar a quantidade de comentários                             
+        self.quantidade_comentarios = self.quantidade_comentarios + 1
+
+        # Ira salvar as alterações no banco de dados
+        self.save()
+    
+    # Irá diminuir a quantidade de comentarios
+    def removerQuantidadeComentario(self):
+        
+        # Ira subtrair a quantidade de comentários
+        self.quantidade_comentarios = self.quantidade_comentarios - 1
+        
+        # Ira salvar as alterações no banco de dados.
+        self.save()    
+        
+    
+
+# Como os comentários de uma postagem possuem alguns atributos básicos
+# como o autor do comentário, a sua data de criação e o seu contéudo, 
+# é necessário construir uma classe que irá conter todos esses atributos
+# e sua relação com as outras classes, como por exemplo, a classe Post,
+# que irá conter os comentários.
+class Comentarios(models.Model):
+    
+    # Ira relacionar um comentário a uma postagem, ela terá o
+    # método de exclusão CASCADE que irá apagar todos os comentários
+    # relacionados ao post caso a postagem seja excluida da página.
+    postagem = models.ForeignKey(Post, on_delete=models.CASCADE)
+    
+    # Ira relacionar o comentário a uma conta com o objetivo de atribuir
+    # um dono ao comentário da postagem. Essa comuna também terá um método
+    # exclusão de cascata
+    autor = models.ForeignKey(Conta, on_delete = models.CASCADE)
+    
+    # Coluna que irá conter o conteúdo do comentário
+    # com o limite de 6000 caracteres.
+    texto_comentario = models.CharField(max_length=6000)
+    
+    # Coluna que irá conter a data de criação do comentario
+    data_criacao = models.DateField(auto_now_add = True)    
+    
+
+    
+
     
     
