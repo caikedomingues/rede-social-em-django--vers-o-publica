@@ -23,18 +23,15 @@ class Conta(models.Model):
     # Ira conter o nome do criador da conta
     nome = models.CharField(max_length=400)
     
-    # Ira conter a idade do criador da conta
-    idade = models.IntegerField()
-    
     # Ira conter uma breve biografia do criador da conta
-    biografia = models.CharField(max_length=1000)
+    biografia = models.CharField(max_length=1000, default='Não há biografia')
     
     # Ira conter uma breve descrição dos assuntos que 
     # criador da conta se interessa
-    interesses = models.CharField(max_length=1000)
+    interesses = models.CharField(max_length=1000, default='Não há interesses')
     
     # Ira xonter o estado civil do usuário
-    estado_civil = models.CharField(max_length=500)
+    estado_civil = models.CharField(max_length=500, default='Não há estado civil')
     
     # Vamos criar uma chave estrangeira que irá relacionar o usuário 
     # a conta criada na rede, com o objetivo de atribuir um dono a
@@ -84,7 +81,7 @@ class Conta(models.Model):
     seguidores = models.ManyToManyField('self', symmetrical=False, related_name='MeSeguindo')
     
     # Ira conter todas as contas que seguimos. Segue a mesma lógica
-    # da coluna de seguidores
+    # da coluna de seguidores.
     seguindo = models.ManyToManyField('self', symmetrical=False, related_name='ContasSeguidas')
     
     # Ira conter a foto de perfil do criador da conta. O campo ImageField

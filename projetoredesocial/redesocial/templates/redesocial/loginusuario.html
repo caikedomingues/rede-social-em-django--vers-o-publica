@@ -1,19 +1,33 @@
 
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
     <head>
         <meta charset="utf-8">
+
         <meta name="viewport" content="width=device-width, initial-scale 1.0">
+
         <meta http-equiv="X-UA Compatible" content="IE=edge">
+
+        <title>Rede Social</title>
+
 
     </head>
 
+
+
     <body>
-        <h1>Página Inicial</h1>
 
-        <p>{{mensagem_usuario}}</p>
+        <form action="{%url 'loginusuario'%}" method="post">
 
-        <p><a href="{%url 'logoutusuario'%}">Sair da rede social</a></p>
+            {%csrf_token%}
+
+            {{form.as_p}}
+
+
+            <button type="submit">Entrar</button>
+            
+        </form>
     </body>
 </html>

@@ -12,5 +12,14 @@ urlpatterns = [
     
     path('', views.index, name='index'),
     
+    path('criarusuario', views.criarusuario, name='criarusuario'),
+    
+    path('loginusuario', views.loginusuario, name='loginusuario'),
+    
+    path('criarconta', views.criarconta, name='criarconta'),
+    
+    path('logoutusuario', views.logoutusuario, name='logoutusuario')
+    
+    
     
 ]
