@@ -125,5 +125,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# Rota da página que o login required irá direcionar
+# o usuário não autenticado caso ele queira acessar
+# uma página exclusiva para usuários autenticados.
 LOGIN_URL = 'loginusuario'

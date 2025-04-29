@@ -24,14 +24,14 @@ class Conta(models.Model):
     nome = models.CharField(max_length=400)
     
     # Ira conter uma breve biografia do criador da conta
-    biografia = models.CharField(max_length=1000, default='Não há biografia')
+    biografia = models.CharField(max_length=1000, default='Não há biografia', blank=True)
     
     # Ira conter uma breve descrição dos assuntos que 
     # criador da conta se interessa
-    interesses = models.CharField(max_length=1000, default='Não há interesses')
+    interesses = models.CharField(max_length=1000, default='Não há interesses', blank=True)
     
-    # Ira xonter o estado civil do usuário
-    estado_civil = models.CharField(max_length=500, default='Não há estado civil')
+    # Ira conter o estado civil do usuário
+    estado_civil = models.CharField(max_length=500, default='Não há estado civil', blank = True)
     
     # Vamos criar uma chave estrangeira que irá relacionar o usuário 
     # a conta criada na rede, com o objetivo de atribuir um dono a
@@ -70,7 +70,7 @@ class Conta(models.Model):
     # acessa as contas que ela está seguindo? É ai que entra o related_
     # name.
     
-    # MeSeguindo: Ao definir esse related_name, o Djnago cria um
+    # MeSeguindo: Ao definir esse related_name, o Django cria um
     # atributo chamado MeSeguindo no nosso modelo conta. Através
     # desse atributo, você pode acessar todas as contas que a instância
     # atual está seguindo.
@@ -87,7 +87,7 @@ class Conta(models.Model):
     # Ira conter a foto de perfil do criador da conta. O campo ImageField
     # deve conter o caminho que o servidor irá salvar as fotos enviadas
     # pelo usuário
-    foto_perfil = models.ImageField(upload_to = 'redesocial/fotos')
+    foto_perfil = models.ImageField(upload_to = 'redesocial/fotos', blank=True)
     
     # Irá inserir automaticamente a data de criação da conta.
     data_criacao = models.DateField(auto_now_add = True)
