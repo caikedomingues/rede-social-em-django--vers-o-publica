@@ -208,7 +208,8 @@ def criarconta(request):
         # comandos.
         
         # Vamos atribuir ao formulário os valores passados pelos usuários
-        form = FormCriacaoConta(request.POST)
+        # e o arquivo com a foto de perfil do usuário
+        form = FormCriacaoConta(request.POST, request.FILES)
         
         # Após envio dos dados ao formulário, vamos verificar se os dados
         # passados seguem as regras definidas no forms.py.
@@ -266,29 +267,45 @@ def posts(request):
         # Se a requisição for POST, iremos realizar os seguintes comandos:
         
         # Vamos atribuir ao formulário os dados passados pelo usuário
-        form = FormCriacaoPost(request.POST)
+        # e o arquivo de video e foto inserido pelo usuário
+        form = FormCriacaoPost(request.POST, request.FILES)
         
         # Após o envio dos dados ao form, vamos verificar se os dados
         # passados seguem as regras definidas no forms.py
         if form.is_valid():
             
-            # Se os dados forem válidos, vamos iniciar o processo
-            # de salvar os dados no servidor.
+            # Se os dados forem válidos, vamos executar os seguintes
+            # comandos.
             
-            # Primeiro, vamos "atrasar" o salvamento dos dados
-            # usando o commit false, dessa maneira, conseguiremos
-            # fazer a associação da postagem com a conta do usuario.
+            # Primeiro vamos dar um commit false no save do form
+            # para "pausar" o salvamento dos dados no servidor, com
+            # o objteivo de realizar mais validações antes da inserção
+            # dos dados.
             dono_post = form.save(commit=False)
             
-            conta = Conta()
-            # Após o commit false vamos atribuir a coluna de 
-            # de dono de postagens, os dados do usuário que está
-            # autenticado no sistema. A atribuição ocorre através do método request.
-            dono_post.dono_postagem = conta.nome
-            # Após a associação entre as classes, iremos salvar os dados no banco de dados
+            # Como precisamos associar uma conta a postagem, vamos
+            # dar um get (select) na coluna de dono da conta que irá
+            # conter os dados do usuário que está nesse momento logado 
+            # no sistema. Para isso vamos dar um get no valor da coluna
+            # dono_conta que ira buscar os valores do usuário que está
+            # logado no momento (representado pelo request.user).
+            conta_usuario = Conta.objects.get(dono_da_conta = request.user)
+        
+            # Após associar as classes, vamos atribuir ao dono da postagem
+            # os valores da conta do usuário que está logado.
+            dono_post.dono_postagem = conta_usuario
+            
+           
+            
+            # Após todo esse processo, vamos salvar os dados no servidor
             dono_post.save()
             
-        
+            print('arquivo recebido', request.FILES)
+            # Após salvar os dados, vamos direcionar o usuário para a
+            # página inicial
+            return redirect('index')
+            
+            
         else:
             
             # Se os dados não forem válidos, vamos imprimir essa mensagem

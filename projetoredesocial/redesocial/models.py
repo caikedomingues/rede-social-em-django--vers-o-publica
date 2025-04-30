@@ -124,22 +124,6 @@ class Conta(models.Model):
         # seguidores e na tabela de seguidores
         self.save()
     
-    # Função que ira remover seguidores da conta do usuário: A função
-    # irá receber 2 argumentos o self (referência aos atributos) e
-    # a conta que será removida.
-    def remover_seguidor(self, conta_seguidor_removida):
-        
-        # Iremos remover a conta da tabela de seguidores   
-        self.seguidores.remove(conta_seguidor_removida)
-        
-        # Após a remoção, iremos atribuir a coluna de numeros
-        # de seguidores a contagem dos registros da tabela de
-        # seguidores
-        self.numero_seguidores = self.seguidores.count()
-        
-        # Após esses comandos, vamos salvar essas alterações.
-        self.save()
-    
     # Função que irá permitir que o usuário siga as contas:
     # A função irá receber os argumentos self(referência aos
     # atributos) e a conta que o usuário irá seguir.
@@ -223,15 +207,6 @@ class Post(models.Model):
         # Ira salvar as alterações
         self.save()
     
-    # Ira retirar a curtida do usuário. 
-    def removerCurtida(self):
-        
-        # Irá remover menos 1 da contagem de curtidas. 
-        self.curtidas = self.curtidas - 1
-
-        # Irá salvar as alterações no banco de dados.
-        self.save()
-    
     # Irá adicionar deslikes na postagem
     def receberDeslike(self):
         
@@ -239,16 +214,6 @@ class Post(models.Model):
         self.nao_curtidas = self.nao_curtidas + 1
         
         # Ira salvar as alterações no banco de dados
-        self.save()
-    
-
-    # Ira diminuir a quantidade de deslikes
-    def removerDeslike(self):
-        
-        # Ira diminuir a contagem de deslikes
-        self.nao_curtidas = self.nao_curtidas - 1
-         
-         # Ira salvar as alterações no banco de dados
         self.save()
     
     # Ira aumentar a quantidade de comentários feitos no post
@@ -259,16 +224,6 @@ class Post(models.Model):
 
         # Ira salvar as alterações no banco de dados
         self.save()
-    
-    # Irá diminuir a quantidade de comentarios
-    def removerQuantidadeComentario(self):
-        
-        # Ira subtrair a quantidade de comentários
-        self.quantidade_comentarios = self.quantidade_comentarios - 1
-        
-        # Ira salvar as alterações no banco de dados.
-        self.save()    
-        
     
 
 # Como os comentários de uma postagem possuem alguns atributos básicos

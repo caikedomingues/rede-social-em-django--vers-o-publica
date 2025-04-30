@@ -1,4 +1,9 @@
 
+
+
+
+<!--Template da página principal da rede social que ira conter 
+as postagens de todos os usuários-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -12,8 +17,94 @@
     <body>
         <h1>Página Inicial</h1>
 
+        <!--Ira acessar a variável do template que contém mensagens de boas vindas 
+        usando o nome do usuário logado.-->
         <p>{{mensagem_usuario}}</p>
 
+        <!--Ira conter o link paea a view que encerra a sessão do usuário-->
         <p><a href="{%url 'logoutusuario'%}">Sair da rede social</a></p>
+        <!--Agora iremos iniciar o processo de mostrar na tela todos os
+        dados da tabela de postagens do nosso sistema. Primeiro, Vamps verificar se há existência de posts no sistema para ser mostrado-->
+        {%if post%}
+
+            <!--Caso exista postagens no sistema, vamos percorrer a tabela de posts com o objetivo de acessar as suas colunas
+            e imprimir os seus dados.-->
+           {%for posts in post%}
+
+           <!--Cada postagem terá a sua própria sessão para podermos 
+           diferenciar as postagens-->
+            <section>
+
+                <!--Como na view associamos a coluna de posts com a coluna de contas (com o objetivo de associar as postagens a uma conta especifica), vamos acessar o nome do usuário que é dono da postagem, pois, como as 2 colunas estão
+                associadas, podemos acessar tanto as informações (colunas)tabela post quanto da coluna conta-->
+                <p>{{posts.dono_postagem.nome}}</p>
+
+                <!--Como a inserção de um texto não é obrigatória,
+                vamos verificar se o usuário inseriu um texto para
+                a sua publicação-->
+                {%if posts.texto%}
+                      <!--Se o usuário inserir um texto, iremos acessar os valores da coluna texto da tabela Post-->
+                     <p>{{posts.texto}}</p>
+
+                {%else%}
+
+                    <!--Caso o usuário nao insira um texto, iremos mostrar essa mensagem padrão-->
+                    <p>Não há texto na publicação</p>
+
+                {%endif%}
+                <!--Como as imagens não são atributos obrigatórios, vamos primeiro verificar se a conta do usuário postou uma imagem em sua publicação-->
+                {%if posts.imagem_postagem%}
+
+                <!--Se a publicação tiver alguma imagem, iremos mostra-la usando a tag img do html com o caminho da pasta de imagens do nosso servidor-->
+                    <p><img src="{{posts.imagem_postagem.url}}"></p>
+
+                <!--fim da estrutura if-->
+                {%endif%}
+
+                <!--Irá acessar os valores da coluna curtidas da tabela Post-->
+                <p>Likes: {{posts.curtidas}}</p>
+
+                <!--Irá acessar os valores da coluna nao_curtidas da tabela Post-->
+                <p>Deslikes: {{posts.nao_curtidas}}</p>
+
+                <!--Irá acessar os valores da coluna quantidade_comentarios da tabela Post-->
+                <p>{{posts.quantidade_comentarios}} Comentários</p>
+
+                <!--Como a inserção de videos não é obrigatória,
+                vamos verificar se o usuário fez a postagem de
+                um video-->
+                {%if posts.video%}
+
+                    <!--Se o usuario postar um video, iremos 
+                    mostra-lo através da tag video do HTML,
+                    que irá conter o caminho da pasta de imagens 
+                    do nosso servidor.
+                    Observação: para o video funcionar é necessário 
+                    adicionar o atributo controls que irá adicionar
+                    os controles de video.-->
+                    <video src="{{posts.video.url}}" controls ></video>
+                <!--Fim da estrutura if-->
+                {%endif%}
+                
+                <!--Criação dos botões de interação entre o usuário e a postagem-->
+                <button type="submit">Curtir</button>
+                <button type="submit">Não curtir</button>
+                <button type="submit">Comentar publicação</button>
+                <button type="submit"> Ver comentários</buton>
+                <button type="submit"> Seguir</button>
+                <button type="submit">Deixar de seguir</button>
+            </section>
+
+            <!--Fim do for-->
+           {%endfor%}
+            
+           {%else%}
+                <!--Se por algum motivo não houver mais postagens, 
+                iremos exibir essa mensagem padrão-->
+                <p>Ainda não há postagens no site</p>
+
+                <!--Fim da estrutura if-->
+        {%endif%}
+
     </body>
 </html>
