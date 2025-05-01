@@ -29,10 +29,10 @@ urlpatterns = [
     path('logoutusuario', views.logoutusuario, name='logoutusuario'),
     
     # Rota para a view de postagens do usuário
-    path('posts', views.posts, name='posts')
+    path('posts', views.posts, name='posts'),
     
     # Rota para a view de postagens do usuário
-   # path('minhaconta', views.minhaconta, name='minhaconta')
+    path('minhaconta', views.minhaconta, name='minhaconta')
     
     
     

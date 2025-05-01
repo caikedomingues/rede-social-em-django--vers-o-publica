@@ -322,3 +322,29 @@ def posts(request):
     
     # Retorno da função render com a requisição ao servidor, o caminho do template HTML e o dicionário que possibilita o acesso as variáveis da view no template HTML.
     return render(request, 'redesocial/posts.html', {'form':form})
+
+
+# Função que irá permitir que apenas usuários autenticados
+# acessem a página
+@login_required
+
+# View que irá mostrar apenas as postagens do usuário
+# autenticado. A função irá receber como argumento apenas
+# o request que irá lidar com as requisições ao sistema.
+def minhaconta(request):
+
+    # Ira conter o nome do usuário autenticado no sistema
+    nome_usuario = f"{request.user.username}"
+    
+    # Primeiro, iremos solicitar no banco de dados a conta
+    # criada pelo usuário autenticado
+    conta = Conta.objects.get(dono_da_conta = request.user)
+    
+    # Após solicitar a conta do usuário autenticado 
+    posts = Post.objects.filter(dono_postagem = conta) 
+    
+    dicionario_post = {'posts':posts, 'nome_usuario': nome_usuario}
+    
+    return render(request, 'redesocial/minhaconta.html', dicionario_post)
+    
+    

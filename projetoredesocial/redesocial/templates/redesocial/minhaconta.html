@@ -1,0 +1,63 @@
+
+
+
+<!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale 1.0">
+        <meta http-equiv="X-UA Compatible" content="IE=edge">
+        <title>Rede Social</title>
+    </head>
+
+    <body>
+
+        <h1>{{nome_usuario}}</h1>
+
+        {%if posts%}
+
+            {%for post in posts%}
+
+                <section>
+                    {%if post.texto%}
+
+                        <p>{{post.texto}}</p>
+
+                    {%else%}
+                        <p>A publicação não tem um texto</p>
+                    {%endif%}
+
+                    {%if post.imagem_postagem%}
+
+                        <img src="{{post.imagem_postagem.url}}" alt="Imagem da postagem">
+
+                    {%endif%}
+
+                    {%if post.video%}
+
+                        <video src="{{post.video.url}}" controls></video><br>
+
+                    {%endif%}
+
+                    <p>Likes: {{post.curtidas}}</p>
+                    <p>Deslikes: {{post.nao_curtidas}}</p>
+                    <p>{{post.quantidade_comentarios}} comentários</p>
+
+                    <button type="submit">Curtir</button>
+                    <button type="submit">Não curtir</button>
+                    <button type="submit">Comentar publicação</button>
+                    <button type="submit"> Ver comentários</buton>
+                    <button type="submit"> Seguir</button>
+                    <button type="submit">Deixar de seguir</button>
+
+                </section>
+                
+            {%endfor%}
+        {%else%}
+            <p>Você ainda não fez nenhuma postagem</p>
+        {%endif%}
+        <section>
+
+        </section>
+    </body>
+</html>
