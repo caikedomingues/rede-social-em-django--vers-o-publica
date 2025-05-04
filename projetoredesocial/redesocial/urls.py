@@ -32,7 +32,11 @@ urlpatterns = [
     path('posts', views.posts, name='posts'),
     
     # Rota para a view de postagens do usuário
-    path('minhaconta', views.minhaconta, name='minhaconta')
+    path('minhaconta', views.minhaconta, name='minhaconta'),
+    
+    # Rota para a view de curtir postagens.
+    
+    path('curtir', views.curtir, name='curtir')
     
     
     

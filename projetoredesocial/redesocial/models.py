@@ -24,14 +24,14 @@ class Conta(models.Model):
     nome = models.CharField(max_length=400)
     
     # Ira conter uma breve biografia do criador da conta
-    biografia = models.CharField(max_length=1000, default='Não há biografia', blank=True)
+    biografia = models.CharField(max_length=1000, blank=True)
     
     # Ira conter uma breve descrição dos assuntos que 
     # criador da conta se interessa
-    interesses = models.CharField(max_length=1000, default='Não há interesses', blank=True)
+    interesses = models.CharField(max_length=1000, blank=True)
     
     # Ira conter o estado civil do usuário
-    estado_civil = models.CharField(max_length=500, default='Não há estado civil', blank = True)
+    estado_civil = models.CharField(max_length=500, blank = True)
     
     # Vamos criar uma chave estrangeira que irá relacionar o usuário 
     # a conta criada na rede, com o objetivo de atribuir um dono a

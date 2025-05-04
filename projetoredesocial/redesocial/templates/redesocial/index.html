@@ -87,7 +87,14 @@ as postagens de todos os usuários-->
                 {%endif%}
                 
                 <!--Criação dos botões de interação entre o usuário e a postagem-->
-                <button type="submit">Curtir</button>
+                <form action="{%url 'curtir'%}" method="post">
+                    
+                    {%csrf_token%}
+                    <input type="hidden" name="post_id" value="{{posts.id}}">
+                    <button type="submit">Curtir</button>
+                
+                </form>
+
                 <button type="submit">Não curtir</button>
                 <button type="submit">Comentar publicação</button>
                 <button type="submit"> Ver comentários</buton>

@@ -2,6 +2,9 @@
 
 # Método da classe shortcuts que irá renderizar os templates
 # html com as requisições e formulários de valores
+
+
+
 from django.shortcuts import render
 
 # Método da classe shortcuts que tem como objetivo
@@ -33,6 +36,9 @@ from .models import Post, Conta
 # Ira importar todos os formulários que iremos utilizar na construção
 # das views.
 from .forms import FormCriacaoConta, FormCadastroUsuario, FormLoginUsuario, FormCriacaoPost
+
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 # Create your views here.
 
 # Criação da view que irá conter todas as postagens da rede social.
@@ -340,11 +346,43 @@ def minhaconta(request):
     # criada pelo usuário autenticado
     conta = Conta.objects.get(dono_da_conta = request.user)
     
-    # Após solicitar a conta do usuário autenticado 
+    # Após solicitar a conta do usuário autenticado, vamos atribuir
+    # essa informações ao post com o objetivo de filtrar no banco
+    # de dados as informações do usuário que fez a postagem. Dessa
+    # maneira iremos associar as 2 classes (posts e usuário) 
     posts = Post.objects.filter(dono_postagem = conta) 
     
-    dicionario_post = {'posts':posts, 'nome_usuario': nome_usuario}
+    # Após a associação entre as classes, vamos criar um dicionário
+    # que possibilitara que o desenvolvedor acesse as variáveis da 
+    # view no template HTML.
+    dicionario_post = {'posts':posts, 'nome_usuario': nome_usuario, 'conta':conta}
     
+    # Retorno da função que irá renderizar o template HTML usando
+    # as requisições ao servidor, o caminho do template e o dicionário
+    # de variáveis da view
     return render(request, 'redesocial/minhaconta.html', dicionario_post)
     
+
+# View que irá permitir que o usuário curta postagens de outros usuários
+def curtir(request):
     
+    # Primeiro vamos verificar se a requisição
+    # ao servidor é do tipo POST.
+    if request.method == 'POST':
+    
+        # Se a requisição for um post (inserção dos dados) 
+        # vamos obter o id do post curtido usando o get que receberá
+        # como parametro a chave (name) que iremos criar o form com
+        # o botão de curtir posts 
+       posts_id = request.POST.get('post_id')
+       
+       # Após coletar as informações das postagens, vamos pegar
+       # o post que possui o id igual ao id coletado
+       post = Post.objects.get(id = posts_id)
+       
+       # Após a coleta do post, iremos chamar o método que irá realizar
+       # a curtida na página
+       post.receberCurtida()
+       
+       
+       return  HttpResponseRedirect(reverse('index'))

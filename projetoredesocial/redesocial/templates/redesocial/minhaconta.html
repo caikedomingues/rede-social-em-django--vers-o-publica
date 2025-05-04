@@ -1,6 +1,6 @@
 
 
-
+<!--Template do perfil do usuário-->
 <!DOCTYPE html>
     <html lang="pt-br">
     <head>
@@ -13,6 +13,51 @@
     <body>
 
         <h1>{{nome_usuario}}</h1>
+
+         {%if conta.foto_perfil%}
+
+            <img src="{{conta.foto_perfil.url}}" alt="foto de perfil">
+
+         {%endif%}
+          
+         <h2>Biografia</h2>
+         {%if conta.biografia%}
+
+            <p>{{conta.biografia}}</p>
+        
+        {%else%}
+            <p>Não há biografia</p>
+        
+        {%endif%}
+
+        <h2>Interesses</h2>
+         
+        {%if conta.interesses%}
+
+            <p>{{conta.interesses}}</p>
+        
+        {%else%}
+
+            <p>Não há biografia</p>
+        
+        
+        {%endif%}
+
+        <h2>Estado civil</h2>
+        {%if conta.estado_civil%}
+
+            <p>{{conta.estado_civil}}</p>
+        
+        {%else%}
+
+            <p>Não há estado civil</p>
+
+        {%endif%}
+           
+        <p><strong>{{conta.numero_seguidores}} seguidores</strong></p>
+        
+        <p><strong>{{conta.numero_seguindo}}seguindo</strong></p>
+
 
         {%if posts%}
 
