@@ -12,82 +12,152 @@
 
     <body>
 
+        <!--Irá conter o nome do usuário logado-->
         <h1>{{nome_usuario}}</h1>
 
+        <!--Nessa página iremos mostrar as principais informações sobre a a conta do usuário.-->
+
+        <!--Primeiro vamos verificar se o usuário possui uma foto de perfil -->
          {%if conta.foto_perfil%}
 
+            <!--Caso o usuário tenha registrado uma foto de perfil, iremos
+            passar para o source da tag img o caminho da pasta que armazena
+            fotos de perfis de usuários.-->
             <img src="{{conta.foto_perfil.url}}" alt="foto de perfil">
 
+        <!--Fim da estrutura if-->
          {%endif%}
           
          <h2>Biografia</h2>
+         <!--Verificando se o usuário adicionou uma biografia-->
          {%if conta.biografia%}
 
+            <!--Se o usuário registrar sua biografia, iremos acessar
+            no sistema a coluna de biografias com o objetivo de mostrar
+            o dado registrado pelo usuário na tabela-->
             <p>{{conta.biografia}}</p>
         
         {%else%}
+
+            <!--Se o usuário não registrar nenhuma biografia, iremos
+            apresentar essa mensagem padrão.-->
             <p>Não há biografia</p>
         
         {%endif%}
 
         <h2>Interesses</h2>
          
+        <!--Iremos verificar se o usuário registrou algo
+        no campo de interesses-->
         {%if conta.interesses%}
 
+            <!--Se o usuário registrar algo no campo de interesses, 
+            iremos acessar no sistema a coluna de biografias com o 
+            objetivo de mostrar o dado registrado pelo usuário na tabela-->
             <p>{{conta.interesses}}</p>
         
         {%else%}
 
-            <p>Não há biografia</p>
+            <!--Se o usuário não registrar nada no campo de 
+            interesses, iremos mostrar esse texto padrão-->
+            <p>Não há interesses</p>
         
         
         {%endif%}
 
         <h2>Estado civil</h2>
+
+        <!--Iremos verificar se o usuário adicionou informações no campo
+        de estado civil-->
         {%if conta.estado_civil%}
 
+            <!--Se o usuário passar informações ao campo de estado civil,
+             iremos acessar no sistema a coluna de biografias com o objetivo 
+             de mostrar o dado registrado pelo usuário na tabela-->
             <p>{{conta.estado_civil}}</p>
         
         {%else%}
 
+            <!--mensagem padrão que será mostrada caso o usuário não informe
+            nenhum dado no campo de estado civil-->
             <p>Não há estado civil</p>
 
         {%endif%}
-           
+        
+        <!--Mostrando o numero de sguidores da conta-->
         <p><strong>{{conta.numero_seguidores}} seguidores</strong></p>
         
+        <!--Mostrando o número de contas que o usuário segue na rede social-->
         <p><strong>{{conta.numero_seguindo}}seguindo</strong></p>
 
 
+        <!--Após imprimir as informações do usuário, vamos mostrar todas as postagens
+        realizadas por ele(a).-->
+
+        <!--Antes de mostrar as postagens iremos verificar se o usuário logado 
+        já realizou alguma postagem na rede-->
         {%if posts%}
 
+            <!--Para iniciar o processo, precisamos percorrer toda a tabela de posts
+            com o objetivo de acessar todas as colunas e seus valores.-->
             {%for post in posts%}
 
+                <!--Cada postagem terá a sua próppri sessão com o objetivo de 
+                diferenciar as postagens.-->
                 <section>
+                    <!--Como os campos de criação de posts não são obrigatórios
+                    vamos verificar se o usuário preencheu cada campo do form
+                    de criação de posts-->
+
+                    <!--verificando se o usuário criou um texto para a sua postagem-->
                     {%if post.texto%}
 
+                        <!--Caso o usuário tenha preenchido o campo de texto,
+                        iremos acessar a coluna de textos e mostrar o conteúdo
+                        na tela.-->
                         <p>{{post.texto}}</p>
 
                     {%else%}
+                        <!--Se o usuário não criar um texto, iremos mostrar esse texto
+                        padrão.-->
                         <p>A publicação não tem um texto</p>
+
+                        <!--FIm da estrutura if-->
                     {%endif%}
 
+                    <!--Verificando se o usuário adicionou uma imagem a sua postagem-->
                     {%if post.imagem_postagem%}
 
+                        <!--Se o usuário adicionar uma imagem, iremos passar para o src
+                        da tag img, o caminho da pasta que irá conter a imagem enviada
+                        pelo usuário.-->
                         <img src="{{post.imagem_postagem.url}}" alt="Imagem da postagem">
 
                     {%endif%}
 
+                    <!--Verificando se o usuário adicionou um video em sua postagem-->
                     {%if post.video%}
 
+                        <!--Se o usuário adicionar videos em sua postagem, iremos passar
+                        para o source da tag img o caminho do arquivo que salva videos
+                        enviados pelos usuários-->
                         <video src="{{post.video.url}}" controls></video><br>
 
                     {%endif%}
 
+                    <!--Após as postagens, vamos mostrar na tela 
+                    a quantidade de interações de usuários com A
+                    postagem.-->
+
+                    <!--Mostrando a quantidade de curtidas da postagem-->
                     <p>Likes: {{post.curtidas}}</p>
+                    <!--Mostrando a quantidade de usuários que não curtiram
+                    a postagem-->
                     <p>Deslikes: {{post.nao_curtidas}}</p>
+                    <!--Mostrando a quantidade de comentários da postagem-->
                     <p>{{post.quantidade_comentarios}} comentários</p>
 
+                    <!--Criação dos botões de interação do usuário com a postagem-->
                     <button type="submit">Curtir</button>
                     <button type="submit">Não curtir</button>
                     <button type="submit">Comentar publicação</button>

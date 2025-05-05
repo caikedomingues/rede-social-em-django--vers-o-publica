@@ -38,7 +38,6 @@ from .models import Post, Conta
 from .forms import FormCriacaoConta, FormCadastroUsuario, FormLoginUsuario, FormCriacaoPost
 
 from django.http import HttpResponseRedirect
-from django.urls import reverse
 # Create your views here.
 
 # Criação da view que irá conter todas as postagens da rede social.
@@ -372,8 +371,10 @@ def curtir(request):
     
         # Se a requisição for um post (inserção dos dados) 
         # vamos obter o id do post curtido usando o get que receberá
-        # como parametro a chave (name) que iremos criar o form com
-        # o botão de curtir posts 
+        # como parametro a chave (name) que iremos criar no form com
+        # o botão de curtir posts. A idéia é que o get colete o id
+        # do post através do formulário que ira receber como valor
+        # o posts.id (coluna de ids das postagens) 
        posts_id = request.POST.get('post_id')
        
        # Após coletar as informações das postagens, vamos pegar
@@ -384,5 +385,61 @@ def curtir(request):
        # a curtida na página
        post.receberCurtida()
        
+       # Request: Como ja vimos anteriormente, ele representa as requisições que passa infromações a sua view sempre que alguma
+       # ação é solicitada ao servidor.
+       # META: é um dicionário python  que contém todos os cabeçalhos 
+       # HTTP disponiveis na requisição. Esses cabeçalhos fornecem
+       # informações adicionais sobre a requisição e o ambiente do
+       # cliente.
+       # HTTP_REFERER: O get irá obter o HTTP_REFERER que é o caminho da
+       # página atual do usuário.
+       pagina_atual = request.META.get('HTTP_REFERER')
        
-       return  HttpResponseRedirect(reverse('index'))
+       # Esta é uma classe do Django que representa uma resposta HTTP 
+       # com um código de status de redirecionamento (geralmente 302
+       # found). Quando o navegador do usuário recebe essa resposta,
+       # ele automaticamente faz uma nova requisição para URL especificada
+       # como argumento. No nosso caso vamos passar como parametro o 
+       # caminho da página atual que o usuário está no momento em que 
+       # curtiu uma postagem.
+       return  HttpResponseRedirect(pagina_atual)
+   
+   
+
+# View que irá permitir que outros usuários não curta as
+# postagens realizadas pelos usuários. A função irá receber
+# como parametro apenas o request que lida com requisições
+# no sistema.
+def nao_curtir(request):
+    
+    # Antes de iniciar o processo, vamos verificar se o usuário
+    # fez uma requisição POST ao servidor.
+    if request.method == 'POST':
+        
+        # Se a requisição for do tipo POST, Iremos realizar os seguintes
+        # comandos:
+        
+        # Vamos atribuir a variável o valor do id presente
+        # no form que contém o name 'nao_curtir_post'
+        id_post = request.POST.get('nao_curtir_post')
+        
+        # Após atribuir o valor na variável, vamos buscar no
+        # banco de dados o post que contém o id presente no 
+        # form.
+        post = Post.objects.get(id=id_post)
+        
+        # Após selecionar o id da postagem, vamos chamar o método
+        # de receberDeslike que irá incrementar a contagem de 
+        # 'não curtidas' da postagem que contém o id especificado.
+        post.receberDeslike()
+        
+        # Serve para pegar o endereço da página que o usuário
+        # está no momento da interação com a página.
+        pagina_atual = request.META.get('HTTP_REFERER')
+        
+        # Após realizar todos os comandos, vamos retornar um httpresponse
+        # redirect que irá enviar a requisição do método de deslike e
+        # direcionará o usuário para a página que ele estava anterior
+        # mente.
+        return HttpResponseRedirect(pagina_atual)
+    
