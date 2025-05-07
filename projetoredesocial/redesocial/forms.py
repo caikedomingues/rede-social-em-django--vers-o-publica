@@ -119,6 +119,37 @@ class FormCriacaoPost(forms.ModelForm):
                 }    
 
 
+# Criação do formulário de inserção de comentários. Como queremos que
+# o campo tenha as mesmas propriedades do atributo definido no model
+# (classe de criação de tabelas para o banco de dados), vamos fazer
+# a classe herdar o ModelForm do módulo forms
+class formCriacaoComentarios(forms.ModelForm):
+        
+        # Classe que irá permitir a configuração dos atributos
+        # ModelForm.
+        class Meta:
+                
+                # O model irá receber a classe que iremos utilizar
+                # na construção do formulário
+                model = Comentarios
+                
+                # Ira conter um campo que será o atributo texto_comentario
+                # definido na classe Comentarios do arquivo models
+                fields = ['texto_comentario']
+                
+                # Dicionário que irá conter o rótulo do formulário
+                # criado
+                labels = {
+                        
+                        'texto_comentario': 'Escreva o que voce acha sobre essa postagens'
+                }
+                
+                # Ira transformar o campo do formulário em um textarea
+                # de 5 linahs e 40 linhas.
+                widgets = {
+                        
+                        'texto_comentario': forms.Textarea(attrs={'rows': 5, 'cols':40}),
+                }
 
     
     

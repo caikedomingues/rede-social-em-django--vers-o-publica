@@ -40,8 +40,9 @@ urlpatterns = [
     # Rota para view de não curtir postagens
     path('nao_curtir', views.nao_curtir, name='nao_curtir'),
     
-    # Rota para view de comentar publicação.
-    path('comentar_publicacao', views.comentar_publicacao, name='comentar_publicacao')
+    # Rota para view de comentar publicação. Nesse caso será necessário
+    # especificar o id da postagem que estára recebendo o comentário.
+    path('comentar_publicacao/<int:post_id>/', views.comentar_publicacao, name='comentar_publicacao')
     
     
     

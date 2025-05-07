@@ -104,10 +104,12 @@ as postagens de todos os usuários-->
 
                 </form>
 
-                <form action="{%url 'comentar_publicacao'%}" method="post">
-                    <button type="submit">Comentar publicação</button>
-                </form>
-                
+                <a href="{%url 'comentar_publicacao' posts.id%}">
+                    
+                   <button type="button">Comentar Publicação</button>
+                   
+                </a>
+
                 <button type="submit"> Ver comentários</buton>
                 <button type="submit"> Seguir</button>
                 <button type="submit">Deixar de seguir</button>

@@ -30,12 +30,13 @@ from django.contrib.auth.decorators import login_required
 # do usuário e desloga o usuário
 from django.contrib.auth import logout
 
-# Ira import das classes utilizadas na criação dos posts 
+# import das classes que serão utilizadas no desenvolvimento
+# das views.
 from .models import Post, Conta
 
 # Ira importar todos os formulários que iremos utilizar na construção
 # das views.
-from .forms import FormCriacaoConta, FormCadastroUsuario, FormLoginUsuario, FormCriacaoPost
+from .forms import FormCriacaoConta, FormCadastroUsuario, FormLoginUsuario, FormCriacaoPost, formCriacaoComentarios
 
 from django.http import HttpResponseRedirect
 # Create your views here.
@@ -442,4 +443,80 @@ def nao_curtir(request):
         # direcionará o usuário para a página que ele estava anterior
         # mente.
         return HttpResponseRedirect(pagina_atual)
+
+
+# Função que irá garantir que apenas usuários autenticados
+# acessem a página
+@login_required
+
+# View que irá permitir que outros usuários comentem as postagens.
+# A função ira receber como parametro o requst que lida com requisições
+# e o id da postagem que será comentada
+def comentar_publicacao(request, post_id):
     
+    # Primeiro, vamos acessar a postagem comentada
+    # via id
+    post = Post.objects.get(id=post_id)
+    
+    # Após acessar o post comentado via id, vamos verificar
+    # se a requisição ao servidor é do tipo POST.
+    if request.method == 'POST':
+        
+        # Se a requisição for um POST, vamos realizar os seguintes comandos
+        
+        # Primeiro, vamos passar para o formulário, os dados
+        # inseridos pelo usuário
+        form = formCriacaoComentarios(request.POST)
+        
+        # Após passar os dados para o formulário, vamos
+        # verificar se os dados seguem as regras definidas
+        # no forms.py
+        if form.is_valid():
+            
+            # Primeiro, vamos atrasar o salvamento dos dados no servidor
+            # com o objetivo de fazer algumas validações antes de salvar
+            # os dados no banco de dados.
+            comentarios = form.save(commit=False)
+            
+            # Após atrasar o salvamento vamos iniciar o processo de associação
+            # entre as classes.
+            
+            # Atribuindo a coluna autor o dono da conta que esta fazendo o comentário.
+            # Para isso, vamos acessar a conta que possui a coluna dono_da_conta igual
+            # ao usuário autenticado (usuário que está realizando o comentário na postagem)
+            comentarios.autor = Conta.objects.get(dono_da_conta = request.user)
+            
+            # Como ja acessamos anteriormente a postagem que contém o id da
+            # postagem comentada, vamos atribuir a coluna de postagem, o post
+            # que está sendo comentado no momento. 
+            comentarios.postagem = post
+            
+            # Após realizar todas as associações, vamos salvar os dados
+            # no servidor
+            comentarios.save()
+            
+            # Após salvar os dados vamos incrementar a contagem de comentários da postagem
+            post.adicionarQuantidadeComentario()
+            
+            # Por último iremos direcionar novamente o usuário para a página inicial.
+            return redirect('index')
+    
+    
+        else:
+            
+            # Se algo der errado na inserção de comentários, iremos apresentar essa
+            # mensagem.
+            form.add_error(None, 'Dados inválidos, por favor tente novamente')
+    
+    else:
+        
+        # Se a requisição não for um POST, iremos instanciar um formulário
+        # em branco que possibilitara que o usuário insira um novo comentário.
+        form = formCriacaoComentarios()
+
+    # Retorno da função que irá renderizar o template html. A função ira receber a requisição
+    # ao servidor, o caminho do template html, e o dicionário que irá possibilitar o acesso
+    # das variáveis da view no template
+    return render(request, 'redesocial/comentar_publicacao.html', {'form':form, 'post':post})
+            
+            
