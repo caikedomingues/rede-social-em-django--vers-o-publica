@@ -544,4 +544,23 @@ def ver_comentarios(request, post_id):
     # ao servidor.
     return render(request, 'redesocial/ver_comentarios.html', dicionario_post)
             
-            
+
+
+
+@login_required
+
+def seguir(request, id_conta):
+    
+        
+        conta_seguida = Conta.objects.get(id=id_conta)
+        
+        
+        conta_que_ira_seguir = Conta.objects.get(dono_da_conta=request.user)
+        
+        
+        conta_que_ira_seguir.seguir_conta(conta_seguida)
+        
+        conta_seguida.adicionar_seguidor()
+        
+        return HttpResponseRedirect('index')        
+        
