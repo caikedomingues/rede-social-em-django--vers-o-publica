@@ -1,0 +1,38 @@
+
+
+
+<!DOCTYPE HTML>
+<html lang="pt-br">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale 1.0">
+        <meta http-equiv="X-UA Compatible" content="IE=edge">
+        <title>Rede Social</title>
+    </head>
+
+
+    <body>
+        <h1>Comentarios da postagem de {{post.dono_postagem.nome}}</p>
+
+        {%if comentarios%}
+
+            {%for comentario in comentarios%}
+
+                <p>Autor: {{comentario.autor.nome}}
+                
+                <p>Comentário:{{comentario.texto_comentario}}
+                
+                <p>Postado em {{comentario.data_criacao}}
+
+            {%endfor%}
+
+        {%else%}
+
+            <p>A página ainda não possui nenhum comentário
+        
+        {%endif%}
+
+    </body>
+
+</html>

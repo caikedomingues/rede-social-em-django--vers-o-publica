@@ -32,7 +32,7 @@ from django.contrib.auth import logout
 
 # import das classes que serão utilizadas no desenvolvimento
 # das views.
-from .models import Post, Conta
+from .models import Post, Conta, Comentarios
 
 # Ira importar todos os formulários que iremos utilizar na construção
 # das views.
@@ -518,5 +518,20 @@ def comentar_publicacao(request, post_id):
     # ao servidor, o caminho do template html, e o dicionário que irá possibilitar o acesso
     # das variáveis da view no template
     return render(request, 'redesocial/comentar_publicacao.html', {'form':form, 'post':post})
+
+
+
+
+def ver_comentarios(request, post_id):
+    
+    
+    post = Post.objects.get(id=post_id)
+    
+    
+    comentarios = Comentarios.objects.filter(postagem=post)
+    
+    dicionario_post = {'post':post, 'comentarios':comentarios}
+    
+    return render(request, 'redesocial/ver_comentarios.html', dicionario_post)
             
             

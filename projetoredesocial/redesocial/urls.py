@@ -42,8 +42,14 @@ urlpatterns = [
     
     # Rota para view de comentar publicação. Nesse caso será necessário
     # especificar o id da postagem que estára recebendo o comentário.
-    path('comentar_publicacao/<int:post_id>/', views.comentar_publicacao, name='comentar_publicacao')
+    path('comentar_publicacao/<int:post_id>/', views.comentar_publicacao, name='comentar_publicacao'),
     
+    
+    # Rota para a view que ira mostrar todos os comentários da postagem.
+    # Ela irá receber como parametro o id da postagem que irá conter os
+    # comentários
+    
+    path('ver_comentarios/<int:post_id>/', views.ver_comentarios, name='ver_comentarios')
     
     
     
