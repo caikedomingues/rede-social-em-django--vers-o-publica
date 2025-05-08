@@ -61,15 +61,6 @@ as postagens de todos os usuários-->
                 <!--fim da estrutura if-->
                 {%endif%}
 
-                <!--Irá acessar os valores da coluna curtidas da tabela Post-->
-                <p>Likes: {{posts.curtidas}}</p>
-
-                <!--Irá acessar os valores da coluna nao_curtidas da tabela Post-->
-                <p>Deslikes: {{posts.nao_curtidas}}</p>
-
-                <!--Irá acessar os valores da coluna quantidade_comentarios da tabela Post-->
-                <p>{{posts.quantidade_comentarios}} Comentários</p>
-
                 <!--Como a inserção de videos não é obrigatória,
                 vamos verificar se o usuário fez a postagem de
                 um video-->
@@ -85,6 +76,17 @@ as postagens de todos os usuários-->
                     <video src="{{posts.video.url}}" controls ></video><br>
                 <!--Fim da estrutura if-->
                 {%endif%}
+
+                <!--Irá acessar os valores da coluna curtidas da tabela Post-->
+                <p>Likes: {{posts.curtidas}}</p>
+
+                <!--Irá acessar os valores da coluna nao_curtidas da tabela Post-->
+                <p>Deslikes: {{posts.nao_curtidas}}</p>
+
+                <!--Irá acessar os valores da coluna quantidade_comentarios da tabela Post-->
+                <p>{{posts.quantidade_comentarios}} Comentários</p>
+
+                
                 
                 <!--Criação dos botões de interação entre o usuário e a postagem-->
                <form action="{%url 'curtir'%}" method="post">

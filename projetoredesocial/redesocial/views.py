@@ -521,17 +521,27 @@ def comentar_publicacao(request, post_id):
 
 
 
-
+# View que irá apresentar os comentarios de cada post
+# registrado no sistema. A função irá receber como
+# parametro o request que lida com requisições e o id
+# do post que contém os comentários.
 def ver_comentarios(request, post_id):
     
-    
+    # Priemiro, vamos acessar a postagem que contém o id acessado
     post = Post.objects.get(id=post_id)
     
-    
+    # Agora vamos acessar apenas os comentarios da postagem que
+    # contém o id acessado no sistema.
     comentarios = Comentarios.objects.filter(postagem=post)
     
+    # Após acessar a psotagem e seus comentários, iremos 
+    # criar um dicionário que irá permitir acessar as variáveis
+    # no template HTML.
     dicionario_post = {'post':post, 'comentarios':comentarios}
     
+    # Retorna da função que irá renderizar o template HTML. A
+    # função irá receber como parametro o request com as requisições
+    # ao servidor.
     return render(request, 'redesocial/ver_comentarios.html', dicionario_post)
             
             

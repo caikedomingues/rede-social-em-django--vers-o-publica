@@ -1,6 +1,7 @@
 
 
-
+<!--Template que irá conter os comentários de cada postagem registrada
+no sistema-->
 <!DOCTYPE HTML>
 <html lang="pt-br">
 
@@ -13,24 +14,41 @@
 
 
     <body>
-        <h1>Comentarios da postagem de {{post.dono_postagem.nome}}</p>
 
+        <!--Ira acessar o nome da conta que fez a postagem com o objetivo de identificar o post que é dono dos comentários-->
+        <h1>Comentarios da postagem de {{post.dono_postagem.nome}}</p>
+        
+        <!--Antes de acessarmos as colunas, vamos verificar se já
+        existe comentários nas postagens.-->
         {%if comentarios%}
 
+            <!--Caso a postagem ja tenha cpmentários registrados no sistema, iremos
+            começar a criar os acessos aos valores através das colunas da tabela.-->
+
+            <!--Para iniciar o processo de impressão dos dados na tela, iremos
+            percorrer a tabela de comentarios que irá conter os comentarios da 
+            postagem que possui o id acessado -->
             {%for comentario in comentarios%}
 
+                <!--Ira acessar o autor do comentário-->
                 <p>Autor: {{comentario.autor.nome}}
                 
+                <!--Ira acessar o texto do comentário-->
                 <p>Comentário:{{comentario.texto_comentario}}
                 
+                <!--Ira acessar a data de criação do comentário-->
                 <p>Postado em {{comentario.data_criacao}}
-
+            
+            <!--Fim da estrutura for-->
             {%endfor%}
 
         {%else%}
-
+            
+            <!--Caso a postagem não tenhu nenhum comentário, iremos apresentar essa
+            mensagem padrão-->
             <p>A página ainda não possui nenhum comentário
         
+        <!--Fim da estrutura if-->
         {%endif%}
 
     </body>

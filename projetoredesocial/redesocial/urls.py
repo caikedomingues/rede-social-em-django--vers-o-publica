@@ -48,7 +48,6 @@ urlpatterns = [
     # Rota para a view que ira mostrar todos os comentários da postagem.
     # Ela irá receber como parametro o id da postagem que irá conter os
     # comentários
-    
     path('ver_comentarios/<int:post_id>/', views.ver_comentarios, name='ver_comentarios')
     
     
