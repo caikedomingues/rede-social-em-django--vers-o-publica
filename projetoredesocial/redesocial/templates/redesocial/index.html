@@ -21,6 +21,15 @@ as postagens de todos os usuários-->
         usando o nome do usuário logado.-->
         <p>{{mensagem_usuario}}</p>
 
+        <p><a href="{%url 'minhaconta'%}">Visualize a sua conta</a></p>
+
+        <p><a href="{%url 'criarconta'%}">Faça login e acesse a sua conta</a></p>
+
+        <p><a href="{%url 'meus_seguidores'%}">Visualize os seus seguidores</a></p>
+
+        <p><a href="{%url 'criarconta'%}">Ja possui um login, mas não
+            tem uma conta? Clique aqui</a></p>
+
         <!--Ira conter o link paea a view que encerra a sessão do usuário-->
         <p><a href="{%url 'logoutusuario'%}">Sair da rede social</a></p>
         <!--Agora iremos iniciar o processo de mostrar na tela todos os
@@ -118,12 +127,25 @@ as postagens de todos os usuários-->
                 </a>
                 
                 
-                
-                 <button type="submit"> Seguir</button>
+                <form action="{%url 'seguir'%}" method="post">
+
+                    {%csrf_token%}
+
+                    <input type="hidden" name = 'id_conta' value="{{posts.dono_postagem.id}}">
+
+                    <button type="submit"> Seguir</button>
+
+                </form>
 
                 
 
                 <button type="submit">Deixar de seguir</button>
+
+                <button type="submit">Ver seguidores da página</button>
+
+                <button type="submit">Ver quem a página segue</button>
+
+                <button type="submit">Ver todas as postagens da página</button>
                 
             </section>
 
@@ -138,5 +160,6 @@ as postagens de todos os usuários-->
                 <!--Fim da estrutura if-->
         {%endif%}
 
+        
     </body>
 </html>

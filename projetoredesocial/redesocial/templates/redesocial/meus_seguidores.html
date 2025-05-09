@@ -1,0 +1,34 @@
+
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale 1.0">
+        <meta http-equiv="X-UA Compatible" content="Width=device-width, initial-scale 1.0">
+        <title>Rede Social</title>
+    </head>
+
+    <body>
+        <h1>{{mensagem_seguidores}}</h1>
+
+        <p>Você possui {{numero_seguidores}} seguidores</p>
+
+        {%if seguidores%}
+
+            {%for seguidor in seguidores%}
+
+                <p>{{seguidor.nome}}</p>
+            
+            {%endfor%}
+        
+        {%else%}
+
+            <p>Essa página ainda não possui seguidores</p>
+        
+        {%endif%}
+
+        <p><a href="{%url 'index'%}">Voltar a página inicial</a></p>
+    </body>
+</html>

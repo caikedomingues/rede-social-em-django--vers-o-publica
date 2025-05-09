@@ -546,21 +546,65 @@ def ver_comentarios(request, post_id):
             
 
 
-
+# Irá proteger a página de usuários não autenticados
 @login_required
-
-def seguir(request, id_conta):
-    
+# View que irá possibilitar que uma conta siga a outra 
+# na rede social. A função irá receber apenas o request 
+# que lida com requisições
+def seguir(request):
         
+        # Primeiro vamos acessar o id presente no form 
+        # do index que irá conter o id da conta que realizou
+        # uma determinada postagem na rede social. O acesso
+        # ao id será feito via o name do form que irá transferir
+        # para a variável o valor presente no value do forms (no
+        # caso o id da conta que realizou a postagem)
+        id_conta = request.POST.get('id_conta')
+        
+        # Após acessar o id, vamos utiliza-lo para acessar a conta
+        # que será seguida pelo usuário
         conta_seguida = Conta.objects.get(id=id_conta)
         
-        
+        # Agora vamos acessar a conta do usuário autenticado
+        # para realizarmos o processo de seguir a conta desejada.
         conta_que_ira_seguir = Conta.objects.get(dono_da_conta=request.user)
         
+        # Agora que ja acessamos as 2 contas, vamos chamar os metodos
+        # adicionar seguidores e de seguir contas
         
+        # Ira representar o usuário autenticado que irá seguir a conta.
+        # A função irá receber como parametro a conta que o usuário
+        # irá seguir.
         conta_que_ira_seguir.seguir_conta(conta_seguida)
         
-        conta_seguida.adicionar_seguidor()
+        # Ira representar a conta seguida. A função irá receber
+        # como parametro a conta que esta seguindo a conta que
+        # realizou a postagem
+        conta_seguida.adicionar_seguidor(conta_que_ira_seguir)
         
-        return HttpResponseRedirect('index')        
+         # Serve para pegar o endereço da página que o usuário
+        # está no momento da interação com a página.
+        pagina_atual = request.META.get('HTTP_REFERER')
         
+        # Ira enviar as requisições ao servidor e direcionará
+        # o usuário para a página que ele estava antes de realizar
+        # a ação de seguir contas.
+        return HttpResponseRedirect(pagina_atual)    
+
+
+
+@login_required
+def meus_seguidores(request):
+    
+    conta = Conta.objects.get(dono_da_conta = request.user)
+    
+    mensagem_seguidores = f'Seguidores da página do (a) {request.user.username}'
+    
+    numero_seguidores = conta.numero_seguidores
+    
+    seguidores = conta.seguidores.all()
+    
+    
+    dicionario_seguidores = {'mensagem_seguidores':mensagem_seguidores, 'seguidores':seguidores, 'numero_seguidores':numero_seguidores}
+    
+    return render(request, 'redesocial/meus_seguidores.html', dicionario_seguidores)

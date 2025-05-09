@@ -50,9 +50,13 @@ urlpatterns = [
     # comentários
     path('ver_comentarios/<int:post_id>/', views.ver_comentarios, name='ver_comentarios'),
     
+    # Rota para view que irá permitir que uma conta siga a outra
+    # na rede social.
+    path('seguir', views.seguir, name='seguir'),
     
-    path('seguir/<int:id_conta>/', views.seguir, name='seguir'),
+    # Rota para view que irá mostrar todos os seguidores de uma conta
     
+    path('meus_seguidores', views.meus_seguidores, name='meus_seguidores'),
     
     
     
