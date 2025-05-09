@@ -58,6 +58,9 @@ urlpatterns = [
     
     path('meus_seguidores', views.meus_seguidores, name='meus_seguidores'),
     
+    # Rota para a view que mostra todas as contas que o usuário
+    # segue na rede social
+    path('quem_sigo', views.quem_sigo, name='quem_sigo')
     
     
 ] 

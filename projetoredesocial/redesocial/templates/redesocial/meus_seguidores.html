@@ -1,5 +1,6 @@
 
 
+<!--Template Html que irá conter o nome das contas que seguem o usuário-->
 <!DOCTYPE html>
 
 <html lang="pt-br">
@@ -11,24 +12,37 @@
     </head>
 
     <body>
+        <!--Ira acessar e imprimir a mensagem para o usuário que foi definida
+        na view-->
         <h1>{{mensagem_seguidores}}</h1>
 
+        <!--Ira mostrar a quantidade de seguidores do usuário autenticado-->
         <p>Você possui {{numero_seguidores}} seguidores</p>
 
+        <!--Antes de mostrar o nome das contas que seguem o usuário, vamos
+        verificar se esse usuário possui algum seguidor.-->
         {%if seguidores%}
 
+            <!--Caso o usuário tenha seguidores, iremos percorrer a tabela 
+            que contém esses dados com o objetivo de mostra-los na tela.-->
             {%for seguidor in seguidores%}
 
+                <!--Impressão dos nomes das contas-->
                 <p>{{seguidor.nome}}</p>
-            
+
+            <!--Fim da estrutura for-->
             {%endfor%}
         
         {%else%}
 
+            <!--Caso o usuário não tenha seguidores, iremos mostrar na tela
+            essa mensagem padrão.-->
             <p>Essa página ainda não possui seguidores</p>
         
+        <!--Fim da estrutura if-->
         {%endif%}
-
+        
+        <!--Link para voltar a página inicial.-->
         <p><a href="{%url 'index'%}">Voltar a página inicial</a></p>
     </body>
 </html>

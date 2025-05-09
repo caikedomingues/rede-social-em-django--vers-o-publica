@@ -593,18 +593,54 @@ def seguir(request):
 
 
 
+# Irá proteger a página de usuários não autenticados
 @login_required
+
+# View que irá permitir que o usuário veja todos as contas que o
+# seguem. A função irá receber como argumento apenas o request
+# que lida com requisições.
 def meus_seguidores(request):
+    
+    # Primeiro, vamos acessar a conta do usuário que está
+    # autenticado.
+    conta = Conta.objects.get(dono_da_conta = request.user)
+    
+    # Ira apresentar uma mensagem padrão ao usuário autenticado
+    mensagem_seguidores = "Seguidores da sua página"
+    
+    # Ira acessar a coluna de quantidade de seguidores
+    numero_seguidores = conta.numero_seguidores
+    
+    # ira acessar a coluna que possui todos os seguidores do usuário
+    # autenticado
+    seguidores = conta.seguidores.all()
+    
+    # Dicionário que irá possibilitar que as variáveis da view seja acessadas no template
+    # HTML 
+    dicionario_seguidores = {'mensagem_seguidores':mensagem_seguidores, 'seguidores':seguidores, 'numero_seguidores':numero_seguidores}
+    
+    # Retorno da função de que irá renderizar o template HTML. A função recebe como
+    # argumentos o request que lida com requisições ao servidor, O caminho do template
+    # HTML e o dicionário com as variáveis da view.
+    return render(request, 'redesocial/meus_seguidores.html', dicionario_seguidores)
+
+
+@login_required
+def quem_sigo(request):
     
     conta = Conta.objects.get(dono_da_conta = request.user)
     
-    mensagem_seguidores = f'Seguidores da página do (a) {request.user.username}'
+    mensagem_quem_sigo = "Pessoas que você segue"
     
-    numero_seguidores = conta.numero_seguidores
+    numero_seguindo = conta.numero_seguindo
     
-    seguidores = conta.seguidores.all()
+    seguindo = conta.seguindo.all()
+    
+    dicionario_seguindo = {'mensagem_quem_sigo':mensagem_quem_sigo, 'numero_seguindo':numero_seguindo, 'seguindo':seguindo}
     
     
-    dicionario_seguidores = {'mensagem_seguidores':mensagem_seguidores, 'seguidores':seguidores, 'numero_seguidores':numero_seguidores}
+    return render(request, 'redesocial/quem_sigo.html', dicionario_seguindo)
+
+
+
     
-    return render(request, 'redesocial/meus_seguidores.html', dicionario_seguidores)
