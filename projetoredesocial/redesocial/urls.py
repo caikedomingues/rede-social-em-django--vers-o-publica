@@ -62,7 +62,13 @@ urlpatterns = [
     # segue na rede social
     path('quem_sigo', views.quem_sigo, name='quem_sigo'),
     
+    # Rota para a view que possibilita que o usuário
+    # deixe de seguir uma conta
     path('deixar_de_seguir', views.deixar_de_seguir, name='deixar_de_seguir'),
+    
+    # Rota para a view que ira possibilitar que o usuário
+    # veja o seguidores de uma determinada página.
+    path('seguidores_pagina/int:<id_conta>/', views.seguidores_pagina, name='seguidores_pagina'),
     
     
 ] 

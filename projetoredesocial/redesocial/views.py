@@ -693,5 +693,39 @@ def deixar_de_seguir(request):
     # Ira enviar a requisição ao servidor e direcionara o usuário
     # para a página que ele estava anteriormente.
     return HttpResponseRedirect(pagina_atual)
+
+
+# View que irá possibilitar que o usuário visualize as contas que 
+# seguem uma determinada página. A função ira receber como parametro
+# o request que irá lidar com as requisições ao servidor e o id
+# da conta que será acessada.
+def seguidores_pagina(request, id_conta):
+    
+    # Primeiro vamos acessar a conta selecionada pelo usuário
+    conta = Conta.objects.get(id=id_conta)
+    
+    # Irá definir a mensagem ao usuário usando o nome da conta
+    # escolhida pelo usuário
+    mensagem_usuario = f'seguidores da página {conta.nome}'
+    
+    # Ira conter o numero de seguidores da página escolhida
+    # pelo usuário
+    numero_seguidores_conta = conta.numero_seguidores
+    
+    # Após acessar a conta escolhida pelo usuário, iremos
+    # acessar todos as contas que seguem a página.
+    seguidores_conta = conta.seguidores.all()
+    
+    # Dicionário que irá possibilitar o acesso as variáveis da view
+    # no templayte html
+    dicionario_seguidores_conta = {'mensagem_usuario':mensagem_usuario, 'numero_seguidores_conta':numero_seguidores_conta, 'seguidores_conta':seguidores_conta}
+    
+    # Retorno da função render que irá renderizar o HTML com
+    # a requisição ao servidor, o caminho do template e o dicionário
+    # de variáveis da view.
+    return render(request, 'redesocial/seguidores_pagina.html', dicionario_seguidores_conta)
+    
+    
+    
     
     

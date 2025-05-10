@@ -1,0 +1,44 @@
+
+
+<!--Template que irá mostrar os seguidores da página escolhida
+pelo usuário.-->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale 1.0">
+        <meta http-equiv="X-UA Compatible" content="IE=edge">
+        <title>Rede Social</title>
+    </head>
+
+
+    <body>
+
+        <!--Ira mostrar a mensagem definida na view.-->
+        <h1>{{mensagem_usuario}}<h1>
+        
+        <!--Irá mostrar o numero de seguidores da página escolhida pelo usuário.-->
+        <p>A pagina possui {{numero_seguidores_conta}} seguidores</p>
+        
+        <!--Antes de mostrar os dados, vamos verificar se a página
+        escolhida possui seguidores-->
+        {%if seguidores_conta%}
+
+            <!--Se a página tiver seguidores iremos percorrer a coluna de seguidores da conta para acessar os valores.-->
+            {%for seguidores in seguidores_conta%}
+
+                <!---->
+                <p>{{seguidores.nome}}
+            
+            {%endfor%}
+        
+        {%else%}
+          
+            <p>A página ainda não possui seguidores</p>
+        
+        {%endif%}
+
+    </body>
+
+</html>

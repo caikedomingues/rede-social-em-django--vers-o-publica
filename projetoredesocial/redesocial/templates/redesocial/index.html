@@ -149,7 +149,11 @@ as postagens de todos os usuários-->
                     
                 </form>
 
-                <button type="submit">Ver seguidores da página</button>
+                <a href="{%url 'seguidores_pagina' posts.dono_postagem.id%}">
+
+                    <button type="submit">Ver seguidores da página</button>
+
+                </a>
 
                 <button type="submit">Ver quem a página segue</button>
 
