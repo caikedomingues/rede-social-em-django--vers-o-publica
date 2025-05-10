@@ -1,6 +1,7 @@
 
 
-
+<!--Template que irá conter todas as contas que o usuário
+segue-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -12,24 +13,37 @@
     </head>
 
     <body>
-
+        <!--Ira mostrar na tela a mensagem para o usuário definida 
+        na view-->
         <h1>{{mensagem_quem_sigo}}</h1>
 
+        <!--Irá mostrar a quantidade de contas que o usuário segue-->
         <p>você segue {{numero_seguindo}} páginas</p>
 
+        <!--Antes de acessar os dados, vamos verificar se o usuário segue alguma conta-->
         {%if seguindo%}
 
+            <!--Se o usuário estiver seguindo alguma conta, vamos 
+            percorrer a coluna de seguindo com o objetivo de acessar
+            as contas que o usuário segue-->
             {%for me_segue in seguindo%}
 
+                <!--Impressão dos nomes das contas seguidas pelo usuário-->
                 <p>{{me_segue.nome}}</p>
 
+            <!--Fim da estrutura for-->
             {%endfor%}
 
         {%else%}
 
+            <!--Se o usuário não estiver seguindo nenhuma conta
+            vamos apresentar essa mensagem padrão-->
             <p>Você ainda não segue ninguem</p>
-        {%endif%}
 
+        <!--Fim da estrutura if-->
+        {%endif%}
+        
+        <!--Link para voltar a página inicial-->
         <p><a href="{%url 'index'%}">Voltar a página inicial</a></p>
     </body>
 </html>

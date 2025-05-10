@@ -624,21 +624,38 @@ def meus_seguidores(request):
     # HTML e o dicionário com as variáveis da view.
     return render(request, 'redesocial/meus_seguidores.html', dicionario_seguidores)
 
-
+# ira proteger as página de usuários não autenticados.
 @login_required
+
+# View que irá permitir que o usuário visualize as páginas que ele segue.
+# A função ira receber como parametro apenas o request que lida com
+# requisições.
 def quem_sigo(request):
     
+    # Primeiro acessar a conta do usuário autenticado.
     conta = Conta.objects.get(dono_da_conta = request.user)
     
+    # Vamos criar uma mensagem para o usuário autentciado.
     mensagem_quem_sigo = "Pessoas que você segue"
     
+    # Acessando a coluna do numero de pessoas que o usuário
+    # segue.
     numero_seguindo = conta.numero_seguindo
     
+    # Como nesse caso onde temos uma relação da classe conta com
+    # ela mesma, o django criou uma tabela intermediaria que iria
+    # conter todas as contas que o usuário segue. Dito isso, vamos
+    # acessar todos os valores da tabela de contas seguidas pelo
+    # usuário.
     seguindo = conta.seguindo.all()
     
+    # Dicionário que irá possibilitar o acesso das variáveis da view
+    # no template HTML.
     dicionario_seguindo = {'mensagem_quem_sigo':mensagem_quem_sigo, 'numero_seguindo':numero_seguindo, 'seguindo':seguindo}
     
-    
+    # Retorno da renderização do template com as requisições ao
+    # servidor, o caminho do template HTML e o dicionario com as
+    # variáveis da view
     return render(request, 'redesocial/quem_sigo.html', dicionario_seguindo)
 
 
