@@ -20,19 +20,26 @@
 
     <body>
 
+        <!--Formulário que irá permitir que usuário insira as informações do seu
+        login. O formulário ira enviar as informações para a própria página e terá
+        o método post (método de inserção de dados.)-->
         <form action="{%url 'loginusuario'%}" method="post">
 
+            <!--Comando que irá garantir que o sistema aceite requisições apemas
+            do nosso próprio sistema-->
             {%csrf_token%}
 
+            <!--ira formatar os dados inseridos como paragráfo.-->
             {{form.as_p}}
 
-
+            <!--Botão que irá enviar os dados para o servidor-->
             <button type="submit">Entrar</button>
             
         </form>
-
+        <!--Link para a pagina de cadastros-->
         <p><a href="{%url 'criarusuario'%}">Não tem um login? clique aqui</a></p>
 
+        <!--Link para retornar a página inicial-->
         <p><a href="{%url 'index'%}">Voltar a página inicial</a></p>
     </body>
 </html>
