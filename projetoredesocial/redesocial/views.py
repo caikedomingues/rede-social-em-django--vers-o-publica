@@ -659,5 +659,39 @@ def quem_sigo(request):
     return render(request, 'redesocial/quem_sigo.html', dicionario_seguindo)
 
 
+# Ira proteger a página de usuários não autenticados
+@login_required
 
+# View que irá possibilitar que o usuário deixe de seguir uma
+# página.
+def deixar_de_seguir(request):
+    
+    # Primeiro, vamos acessar o id da página que o usuário
+    # irá deixar de seguir. Para acessar o dado, vamos 
+    # usar a função get do request que ira pegar o value do
+    # form (que no caso é o id da conta) que tem o name definido
+    # como id_conta.
+    id_conta = request.POST.get('id_conta')
+    
+    # Após coletar o id vamos usa-lo para acessar a conta que
+    # iremos deixar de seguir.
+    conta_que_irei_deixar_de_seguir = Conta.objects.get(id=id_conta)
+    
+    # Depois, iremos acessar a conta do usuário que esta autenticado
+    # no sistema.
+    conta_usuario = Conta.objects.get(dono_da_conta = request.user)
+    
+    # Após acessar a conta do usuário autenticado, vamos chamar o método
+    # que possibilitara que ele pare de seguir a página. O método da classe
+    # irá receber como parametro a conta que iremos deixar de seguir
+    conta_usuario.deixar_de_seguir(conta_que_irei_deixar_de_seguir)
+    
+    # Ira coletar o endereço da página que o usuário estava antes
+    # de executar a ação.
+    pagina_atual = request.META.get('HTTP_REFERER')
+    
+    # Ira enviar a requisição ao servidor e direcionara o usuário
+    # para a página que ele estava anteriormente.
+    return HttpResponseRedirect(pagina_atual)
+    
     

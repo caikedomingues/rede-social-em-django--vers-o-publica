@@ -141,8 +141,13 @@ as postagens de todos os usuários-->
                 </form>
 
                 
+                <form action="{%url 'deixar_de_seguir'%}" method="post">
 
-                <button type="submit">Deixar de seguir</button>
+                    {%csrf_token%}
+                    <input type="hidden" name="id_conta" value="{{posts.dono_postagem.id}}">
+                    <button type="submit">Deixar de seguir</button>
+                    
+                </form>
 
                 <button type="submit">Ver seguidores da página</button>
 

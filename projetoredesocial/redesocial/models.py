@@ -153,6 +153,15 @@ class Conta(models.Model):
         # a quantidade de registros da tabela de contas seguidas
         self.numero_seguindo = self.seguindo.count()
         
+        # Ira remover o usuário da página que ele deixou de seguir
+        conta_nao_seguida.seguidores.remove(self)
+        
+        # Ira diminuir o numero de seguidores da página não seguida
+        conta_nao_seguida.numero_seguidores = conta_nao_seguida.seguidores.count()
+        
+        # Iremos salvar as operações na conta que esta perdendo o
+        # seguidor
+        conta_nao_seguida.save()
         # Após esses comandos, iremos salvar essas alterações
         self.save()
     
