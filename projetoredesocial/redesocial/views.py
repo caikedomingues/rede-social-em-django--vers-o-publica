@@ -751,6 +751,38 @@ def quem_segue(request, id_conta):
     # Return da função render que irá renderizar o template html
     # com a requisição ao servidor e o dicionário de variáveis da view.
     return render(request, 'redesocial/quem_segue.html', dicionario_seguindo)
+
+
+def ver_perfil(request, id_conta):
+    
+    conta = Conta.objects.get(id=id_conta)
+    
+    id = conta.id
+    
+    nome_da_conta = conta.nome
+    
+    foto_perfil = conta.foto_perfil
+    
+    biografia = conta.biografia
+    
+    interesses = conta.interesses
+    
+    estado_civil = conta.estado_civil
+    
+    numero_seguidores = conta.numero_seguidores
+    
+    numero_seguindo = conta.numero_seguindo
+    
+    posts = Post.objects.filter(dono_postagem = conta)
+    
+    
+    dicionario_perfil = {'id':id, 'nome_da_conta':nome_da_conta, 'foto_perfil':foto_perfil, 'biografia':biografia, 'interesses':interesses, 'estado_civil':estado_civil, 'numero_seguidores': numero_seguidores, numero_seguindo:'numero_seguindo', 'posts':posts}
+    
+    
+    return render(request, 'redesocial/ver_perfil.html', dicionario_perfil)
+    
+    
+    
     
     
     

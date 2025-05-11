@@ -72,7 +72,12 @@ urlpatterns = [
     
     # Rota para view que irá possibilitar que o usuário visualize
     # todas as contas que a página escolhida segue
-    path('quem_segue/int:<id_conta>/', views.quem_segue, name='quem_segue')
+    path('quem_segue/int:<id_conta>/', views.quem_segue, name='quem_segue'),
+    
+    # Rota para a view que possibilitara que o usuário visualize o perfil
+    # de uma determinada página.
+    
+    path('ver_perfil/<int:id_conta>/', views.ver_perfil, name='ver_perfil'),
     
     
 ] 
