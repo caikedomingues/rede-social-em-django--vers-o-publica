@@ -726,6 +726,35 @@ def seguidores_pagina(request, id_conta):
     return render(request, 'redesocial/seguidores_pagina.html', dicionario_seguidores_conta)
     
     
+# View que irá permitir que o usuário visualize as contas seguidas por
+# uma determinada página. A função irá receber como argumento o request
+# que lida com requisições e o id da conta acessada.
+def quem_segue(request, id_conta):
+    
+    # Primeiro, vamos acessar a conta escolhida pelo usuário através
+    # do id da conta.
+    conta = Conta.objects.get(id=id_conta)
+    
+    # Vamos criar uma mensagem usando o nome da conta escolhida
+    mensagem_usuarios = f'Contas seguidas pela página {conta.nome}'
+    
+    # Ira conter o numero de contas que a página segue.
+    numeros_quem_segue = conta.numero_seguindo
+    
+    # Iremos acessar todas as contas que a página segue
+    quem_a_pagina_segue = conta.seguindo.all()
+    
+    # Dicionário que irá possibilitar o acesso de todas as variáveis
+    # na view.
+    dicionario_seguindo = {'mensagem_usuarios':mensagem_usuarios, 'numeros_quem_segue':numeros_quem_segue,
+                           'quem_a_pagina_segue':quem_a_pagina_segue}
+    # Return da função render que irá renderizar o template html
+    # com a requisição ao servidor e o dicionário de variáveis da view.
+    return render(request, 'redesocial/quem_segue.html', dicionario_seguindo)
+    
+    
+    
+    
     
     
     

@@ -1,0 +1,44 @@
+
+<!--Template que irá conter as contas que a página segue na rede-->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale 1.0">
+        <meta http-equiv="X-UA Compatible" content="IE=edge">
+        <title>Rede Social</title>
+    </head>
+
+
+    <body>
+
+        <!--Ira apresentar a mensagem ao usuário-->
+        <h1>{{mensagem_usuarios}}</h1>
+
+        <!--Ira mostrar a quantidade de contas que a página segue.-->
+        <p>A página segue {{numeros_quem_segue}} contas</p>
+
+        <!--Antes de acessarmos os valores, vamos verificar se a página
+        segue alguma conta.-->
+        {%if quem_a_pagina_segue%}
+
+            <!--Se as contas seguidas existirem, iremos percorrer a coluna
+            com o objetivo de acessar os valores-->
+            {%for segue in quem_a_pagina_segue%}
+
+                <!--Após acessar os valores, vamos mostrar o nome de cada conta.-->
+                   <p>{{segue.nome}}</p>
+            
+            <!--Fim da estrutira for-->
+            {%endfor%}
+        {%else%}
+
+                <!--Mensagem padrão que será apresentada caso a página
+                não siga nenhuma conta.-->
+                <p>A página ainda não segue nenhuma conta</p>
+
+        <!--Fim da estrutura if-->
+        {%endif%}
+    </body>
+</html>

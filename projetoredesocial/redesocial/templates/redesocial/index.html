@@ -155,7 +155,12 @@ as postagens de todos os usuários-->
 
                 </a>
 
-                <button type="submit">Ver quem a página segue</button>
+                <a href="{%url 'quem_segue' posts.dono_postagem.id%}">
+
+                    <button type="submit">Ver quem a página segue</button>
+
+                </a>
+
 
                 <button type="submit">Ver todas as postagens da página</button>
                 

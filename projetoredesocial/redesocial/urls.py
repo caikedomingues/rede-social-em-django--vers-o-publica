@@ -70,5 +70,9 @@ urlpatterns = [
     # veja o seguidores de uma determinada página.
     path('seguidores_pagina/int:<id_conta>/', views.seguidores_pagina, name='seguidores_pagina'),
     
+    # Rota para view que irá possibilitar que o usuário visualize
+    # todas as contas que a página escolhida segue
+    path('quem_segue/int:<id_conta>/', views.quem_segue, name='quem_segue')
+    
     
 ] 
