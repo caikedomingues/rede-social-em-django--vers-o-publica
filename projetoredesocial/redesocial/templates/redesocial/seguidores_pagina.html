@@ -28,15 +28,18 @@ pelo usuário.-->
             <!--Se a página tiver seguidores iremos percorrer a coluna de seguidores da conta para acessar os valores.-->
             {%for seguidores in seguidores_conta%}
 
-                <!---->
+                <!--Irá acessar o nome das conats que seguem o a página escolhida pelo usuário.-->
                 <p>{{seguidores.nome}}
             
+            <!--Fim da estrutura for-->
             {%endfor%}
         
         {%else%}
-          
+            
+            <!--Caso a página escolhida não tenha seguidores iremos apresentar essa mensagem padrão-->
             <p>A página ainda não possui seguidores</p>
         
+        <!--Fim da estrutura if-->
         {%endif%}
 
     </body>
