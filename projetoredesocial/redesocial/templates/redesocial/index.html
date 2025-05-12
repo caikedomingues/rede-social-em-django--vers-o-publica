@@ -133,11 +133,9 @@ as postagens de todos os usuários-->
                 <form action="{%url 'seguir'%}" method="post">
 
                     {%csrf_token%}
-
-                    <input type="hidden" name = 'id_conta' value="{{posts.dono_postagem.id}}">
-
-                    <button type="submit"> Seguir</button>
-
+                    <input type="hidden" name="id_conta" value="{{posts.dono_postagem.id}}">
+                    <button type="submit">Seguir</button>
+                    
                 </form>
 
                 

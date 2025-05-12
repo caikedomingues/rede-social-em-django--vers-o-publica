@@ -495,11 +495,15 @@ def comentar_publicacao(request, post_id):
             # no servidor
             comentarios.save()
             
+            # Por último iremos direcionar novamente o usuário para a página inicial.
+        
+            
             # Após salvar os dados vamos incrementar a contagem de comentários da postagem
             post.adicionarQuantidadeComentario()
             
-            # Por último iremos direcionar novamente o usuário para a página inicial.
+            
             return redirect('index')
+            
     
     
         else:
@@ -546,11 +550,6 @@ def ver_comentarios(request, post_id):
             
 
 
-# Irá proteger a página de usuários não autenticados
-@login_required
-# View que irá possibilitar que uma conta siga a outra 
-# na rede social. A função irá receber apenas o request 
-# que lida com requisições
 def seguir(request):
         
         # Primeiro vamos acessar o id presente no form 
@@ -560,6 +559,8 @@ def seguir(request):
         # para a variável o valor presente no value do forms (no
         # caso o id da conta que realizou a postagem)
         id_conta = request.POST.get('id_conta')
+        
+        print("ID CONTA: ", id_conta)
         
         # Após acessar o id, vamos utiliza-lo para acessar a conta
         # que será seguida pelo usuário
@@ -589,7 +590,7 @@ def seguir(request):
         # Ira enviar as requisições ao servidor e direcionará
         # o usuário para a página que ele estava antes de realizar
         # a ação de seguir contas.
-        return HttpResponseRedirect(pagina_atual)    
+        return HttpResponseRedirect(pagina_atual) 
 
 
 
@@ -752,33 +753,60 @@ def quem_segue(request, id_conta):
     # com a requisição ao servidor e o dicionário de variáveis da view.
     return render(request, 'redesocial/quem_segue.html', dicionario_seguindo)
 
-
+# Irá proteger a página de usuários não autenticados.
+@login_required
+# View que irá possibilitar que os usuários visualizem os perfis
+# das contas da rede. A função irá receber como parametro 
+# o request que lida com requisições e o id da conta que terá
+# o perfil visualizado 
 def ver_perfil(request, id_conta):
     
+    # Primeiro iremos acessar a conta escolhida através do
+    # id.
     conta = Conta.objects.get(id=id_conta)
     
+    # Após acessar a conta, vamos acessar o valor de cada coluna
+    # que compoe as informações das contas acessadas.
+    
+    # Acessando o id da conta que iremos utilizar para referenciar
+    # a conta na criação dos botões.
     id = conta.id
     
+    # Acessando o nome da conta
     nome_da_conta = conta.nome
     
+    # Acessando a foto de perfil da conta
     foto_perfil = conta.foto_perfil
     
+    # Acessando a biografia da conta.
     biografia = conta.biografia
     
+    # Acessando os interesses da conta
     interesses = conta.interesses
     
+    # Acessando o estado civil da conta
     estado_civil = conta.estado_civil
     
+    # Acessando o numero de seguidores da conta
     numero_seguidores = conta.numero_seguidores
     
+    # Acessando o numero de páginas que a conta segue.
     numero_seguindo = conta.numero_seguindo
     
+    # Como a classe Posts está relacionada com a classe conta
+    # iremos acessar todos os posts realizados pela conta
+    # escolhida pelo usuário. Para isso vamos usar o filter
+    # para filtrar as postagens que tenham como dono a conta
+    # escolhida pelo usuário
     posts = Post.objects.filter(dono_postagem = conta)
     
+    # Dicionário que irá possibilitar que as variáveis da view
+    # sejam acessadas no template HTML.
+    dicionario_perfil = {'id':id, 'nome_da_conta':nome_da_conta, 'foto_perfil':foto_perfil, 'biografia':biografia, 'interesses':interesses, 'estado_civil':estado_civil, 'numero_seguidores': numero_seguidores, 'numero_seguindo':numero_seguindo, 'posts':posts}
     
-    dicionario_perfil = {'id':id, 'nome_da_conta':nome_da_conta, 'foto_perfil':foto_perfil, 'biografia':biografia, 'interesses':interesses, 'estado_civil':estado_civil, 'numero_seguidores': numero_seguidores, numero_seguindo:'numero_seguindo', 'posts':posts}
-    
-    
+    # Retorno da função que irá renderizar o template html com
+    # as requisições ao servidor e o dicionário de variáveis
+    # da view
     return render(request, 'redesocial/ver_perfil.html', dicionario_perfil)
     
     

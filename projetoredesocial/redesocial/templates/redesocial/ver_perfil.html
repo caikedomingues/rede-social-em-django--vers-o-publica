@@ -1,9 +1,192 @@
 
 
+<!--Template que irá mostrar as informações do perfil escolhido-->
 <!DOCTYPE html>
 <html lang="pt-br">
 
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale 1.0">
+        <meta http-equiv="X-UA Compatible" content="IE=edge">
+        <title>Rede Social</title>
     </head>
+
+
+    <body>
+        <!--Nome da conta-->
+        <h1>{{nome_da_conta}}</h1>
+
+        <!--Como as infomações do perfil não são obrigatórias (com
+        exceção do nome da conta) vamos verificar se o usuário
+        inseriu essas informações antes de mostra-las-->
+
+        <!--Verificando se a conta possui uma foto de perfil--> 
+        {%if foto_perfil%}
+
+            <!--Caso a conta tenha uma foto de perfil, vamos passar 
+            para a tag img o caminho da imagem-->
+            <img src="{{foto_perfil.url}}">
+        
+        {%endif%}
+
+        <h2>Biografia</h2>
+
+        <!--Verificando se a conta possui uma biografia-->
+        {%if biografia%}
+
+            <!--Caso a conta tenha uma biografia, iremos mostrar
+            na tela o valor da coluna biografia da conta-->
+            <p>{{biografia}}</p>
+        
+        {%else%}
+
+            <!--Caso a conta não tenha uma biografia, iremos mostrar
+            essa mensage padrão-->
+            <p>Não há biográfia</p>
+        
+        {%endif%}
+
+
+        <h2>Interesses</h2>
+
+        <!--Verificando se a conta possui interesses-->
+        {%if interesses%}
+          
+            <!--Caso a conta tenha interesses iremos mostrar
+            na tela o valor da coluna interesses da conta-->
+           <p>{{interesses}}</p>
+        
+        {%else%}
+
+            <!--Caso a coluna não tenha interesses, vamos mostrar
+            essa mensagem padrão.-->
+           <p>Não há interesses</p>
+        
+        {%endif%}
+        
+        
+        <h2> Estado civil</h2>
+        
+        <!--Verificando se a conta possui um estado civil.-->
+        {%if estado_civil%}
+
+            <!--Caso a conta tenha um estado civil, iremos mostrar
+            na tela o valor da coluna de estado civil da conta-->
+            <p>{{estado_civil}}</p>
+        
+        {%else%}
+
+            <!--Caso não há estado civil, vamos apresentar essa mensagem padrão-->
+            <p>Não há estado civil</p>
+        
+        {%endif%}
+
+        <p><strong>Numero de seguidores:{{numero_seguidores}}</strong></p>
+
+        <p><strong>{{numero_seguindo}} seguindo</strong></p>
+
+        <form action="{%url 'seguir'%}" method="post">
+
+            {%csrf_token%}
+
+            <input type="hidden" name="id_conta" value="{{id}}">
+
+            <button type="submit">Seguir</button>
+
+         </form>
+
+         <form action="{%url 'deixar_de_seguir'%}" method="post">
+             
+             {%csrf_token%}
+
+            <input type="hidden" name="id_conta" value="{{id}}">
+
+            <button type="submit"> Deixar de seguir</button>
+         </form>
+
+         <a href="{%url 'seguidores_pagina' id%}">
+            
+            <button type="button">Ver seguidores da página</button>
+        
+         </a>
+
+         <a href="{%url 'quem_segue' id%}">
+
+            <button type="button">Ver quem a página segue</button>
+        
+         </a>
+
+         {%if posts%}
+
+            {%for post in posts%}
+
+                {%if post.texto%}
+
+                    <p>{{post.texto}}</p>
+
+                {%else%}
+
+                    <p>Não há texto na publicação</p>
+
+                {%endif%}
+
+                {%if post.imagem_postagem%}
+
+                    <img src="{{post.imagem_postagem.url}}" alt="Foto da publicação">
+                
+                {%endif%}
+
+                {%if post.video%}
+
+                    <video src="{{post.video.url}}" controls></video>
+
+                {%endif%}
+
+                 <!--Irá acessar os valores da coluna curtidas da tabela Post-->
+                <p>Likes: {{post.curtidas}}</p>
+
+                <!--Irá acessar os valores da coluna nao_curtidas da tabela Post-->
+                <p>Deslikes: {{post.nao_curtidas}}</p>
+
+                <!--Irá acessar os valores da coluna quantidade_comentarios da tabela Post-->
+                <p>{{post.quantidade_comentarios}} Comentários</p>
+
+                <form action="{%url 'curtir'%}" method="post">
+
+                    {%csrf_token%}
+                    <input type="hidden" name="post_id" value="{{post.id}}">
+
+                    <button type="submit">Curtir</button>
+                </form> 
+
+                <form action="{%url 'nao_curtir'%}" method="post">
+                    {%csrf_token%}
+                    <input type="hidden" name="nao_curtir_post" value="{{post.id}}">
+
+                    <button type="submit">Não curtir</button>
+                </form>
+
+                <a href="{%url 'comentar_publicacao' post.id%}">
+
+                    <button type="button">Comentar Publicação</button>
+                
+                </a>
+
+                <a href="{%url 'ver_comentarios' post.id%}">
+
+                    <button type="button">Ver comentários da publicação</button>
+
+                </a>
+
+            {%endfor%}
+         {%else%}
+
+            <p>Há página ainda não possui postagens</p>
+        
+        {%endif%}
+         
+
+        <p><a href="{%url 'index'%}">Voltar a página inicial</a></p>
+
+    </body>
 </html>
