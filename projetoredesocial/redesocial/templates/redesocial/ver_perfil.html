@@ -84,39 +84,62 @@
         <!--Irá mostrar a quantidade de seguidores da conta-->
         <p><strong>Numero de seguidores:{{numero_seguidores}}</strong></p>
 
+        <!--Irá mostrar o numero de contas que a página segue-->
         <p><strong>{{numero_seguindo}} seguindo</strong></p>
 
+        <!--Formulário que irá enviar a requisição de seguir contas
+        para o servidor. Como não é necessário ir para outra página,
+        iremos enviar os dados para a própria página de seguir.
+        O formulário irá conter o método post que envia dados para
+        o servidor.-->
         <form action="{%url 'seguir'%}" method="post">
 
+            <!--Função que possibilita que o servidor do sistema receba requisições apenas do nosso site-->
             {%csrf_token%}
 
+            <!--Ira criar um input invisivel de nome id_conta que Ira
+            receber como valor (value) o id da conta do que o usuário
+            está acessando-->
             <input type="hidden" name="id_conta" value="{{id}}">
 
+            <!--Botão que enviará a requisição ao servidor.-->
             <button type="submit">Seguir</button>
 
          </form>
 
+         <!--Formulário que irá enviar a requisição de deixar de seguir contaspara o servidor. Como não é necessário ir para outra página,iremos enviar os dados para a própria página de seguir.
+        O formulário irá conter o método post que envia dados para
+        o servidor.-->
          <form action="{%url 'deixar_de_seguir'%}" method="post">
              
+            <!--Função que possibilita que o servidor do sistema receba requisições apenas do nosso site-->
              {%csrf_token%}
 
+            <!--Ira criar um input invisivel de nome id_conta que Ira
+            receber como valor (value) o id da conta do que o usuário
+            está acessando-->
             <input type="hidden" name="id_conta" value="{{id}}">
 
+            <!--Botão que enviará a requisição ao servidor.-->
             <button type="submit"> Deixar de seguir</button>
          </form>
 
+         <!--Ira transferir o usuário para a página que contém as contas que seguem o perfil. O caminho do link deve conter o id do perfil que o usuário está acessando-->
          <a href="{%url 'seguidores_pagina' id%}">
             
+            <!--Botão que transfere o usuário para a página-->
             <button type="button">Ver seguidores da página</button>
         
          </a>
 
+          <!--Ira transferir o usuário para a página que contém as contas que o usuário segue. O caminho do link deve conter o id do perfil que o usuário está acessando-->
          <a href="{%url 'quem_segue' id%}">
 
             <button type="button">Ver quem a página segue</button>
         
          </a>
 
+         <!--Agora, vamos mostrar todos os posts do usuário. Primeiro, vamos verificar se o usuário posts-->
          {%if posts%}
 
             {%for post in posts%}
