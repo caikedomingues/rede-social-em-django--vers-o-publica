@@ -1,0 +1,113 @@
+
+
+<h1>{{titulo}}</h1>
+
+
+{%if contas_seguidas%}
+
+
+        {%if post.count == 0%}
+
+            <p>As páginas que você segue ainda não possuem posts</p>
+        
+        
+        {%else%}
+
+            {%for post in post%}
+
+                <p>{{post.dono_postagem.nome}}</p>
+
+                {%if post.texto%}
+
+                    <p>{{post.texto}}</p>
+
+                
+                {%else%}
+
+                    <p>Não há texto na postagem</p>
+                
+                {%endif%}
+
+                {%if post.imagem_postagem%}
+
+                    <img src="{{post.imagem_postagem.url}}" alt="Imagem da postagem">
+
+                {%endif%}
+
+                {%if post.video%}
+
+                    <video src="{{post.video.url}}" controls>
+                
+                {%endif%}
+
+                <!--Irá acessar os valores da coluna curtidas da tabela Post-->
+                <p>Likes: {{post.curtidas}}</p>
+
+                <!--Irá acessar os valores da coluna nao_curtidas da tabela Post-->
+                <p>Deslikes: {{post.nao_curtidas}}</p>
+
+                <!--Irá acessar os valores da coluna quantidade_comentarios da tabela Post-->
+                <p>{{post.quantidade_comentarios}} Comentários</p>
+
+                <form action="{%url 'curtir'%}" method="post">
+                    
+                    {%csrf_token%}
+                    <input type="hidden" name="post_id" value="{{post.id}}">
+                    <button type="submit">Curtir</button>
+                </form>
+
+                <form action="{%url 'nao_curtir'%}" method="post">
+
+                    {%csrf_token%}
+                    <input type="hidden" name="nao_curtir_post" value="{{post.id}}">
+
+                    <button type="submit">Não curtir</button>
+            
+                </form>
+
+                <a href="{%url 'comentar_publicacao' post.id%}">
+    
+                    <button type="button">Comentar Publicação</button>
+                </a>
+                
+
+                <a href="{%url 'ver_comentarios' post.id%}">
+
+                    <button type="button"> Ver comentários</button>
+
+                </a>
+
+                <form action="{%url 'deixar_de_seguir'%}" method="post">
+
+                    {%csrf_token%}
+                    <input type="hidden" name="id_conta" value="{{post.dono_postagem.id}}">
+                    <button type="submit">Deixar de seguir</button>
+                    
+                </form>
+
+                <a href="{%url 'seguidores_pagina' post.dono_postagem.id%}">
+
+                    <button type="submit">Ver seguidores da página</button>
+
+                </a>
+
+                <a href="{%url 'quem_segue' post.dono_postagem.id%}">
+
+                    <button type="submit">Ver quem a página segue</button>
+
+                </a>
+
+                <a href="{%url 'ver_perfil' post.dono_postagem.id%}">
+
+                    <button type="submit">Ver perfil da página</button>
+                </a>
+            {%endfor%}
+        
+        {%endif%}
+
+        
+
+{%else%}
+
+    <p>Você ainda não segue ninguem </p>
+{%endif%}

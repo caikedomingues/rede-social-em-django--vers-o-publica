@@ -202,7 +202,7 @@
                 </form>     
 
                 <!--Formulário que irá enviar a requisição de não  curtidas para o sistema. O action sera direcionada para a view nao_curtir que conterá a requisição de não curtidas. O formulário irá conter o método post que insere dados no servidor.-->
-                <form action="{%url 'nao_curtir'%}" method="post">4
+                <form action="{%url 'nao_curtir'%}" method="post">
 
                     <!--Ira possibilitar que o sistema receba requisições apenas do nosso site-->
                     {%csrf_token%}

@@ -809,7 +809,49 @@ def ver_perfil(request, id_conta):
     # da view
     return render(request, 'redesocial/ver_perfil.html', dicionario_perfil)
     
+
+# Função que irá bloquear a página de usuários não autenticados
+@login_required
+
+# View que irá mostrar somente as postagens das contas que o usuário
+# segue. A função irá receber como argumento apenas o request que lida
+# com as requisições feitas ao sistema.
+def postagem_seguindo(request):
+
+    # Primeiro vamos acessar a conta do usuário autenticado usando
+    # o request. 
+    conta_usuario = Conta.objects.get(dono_da_conta = request.user)
     
+    # Após acessar a conta do usuário autenticado, vamos acessar
+    # as contas que o usuário segue na rede social. Como é uma relação
+    # muitos para muitos, temos que sinalizar que queremos acessar todas
+    # as contas.
+    contas_seguidas = conta_usuario.seguindo.all()
+    
+    # Após acessar as contas que o usuário segue, vamos acessar
+    # todos os posts relacionados a essas contas usando o lookup.
+    # Lookup: O lookup é usado nos metodos filter, exclude e get para
+    # especificar a condição de filtro. O operador __in serve para
+    # filtrar um campo por multiplos valores possiveis em vez de um
+    # único valor. O valor que passamos para __in deve ser uma lista,
+    # uma tupla ou, um queryset (que é o nosso caso).
+    post = Post.objects.filter(dono_postagem__in = contas_seguidas)
+    
+    # Variável que irá conter uma mensagem usando o nome do usuário
+    # autenticado.
+    titulo = f'Postagens das contas seguidas por {conta_usuario.nome}'
+    
+    # Dicionário que irá possibilitar o acesso as variáveis da 
+    # view no template HTML.
+    dicionario_post_seguindo = {'conta_usuario': conta_usuario, 'contas_seguidas':contas_seguidas, 'post':post, 'titulo':titulo}
+    
+    # Retorno da função que irá renderizar o template. A função irá
+    # receber como argumento as requisições ao sistema, o caminho do
+    # template HTML e o dicionário de variáveis da view.
+    return render(request, 'redesocial/postagem_seguindo.html', dicionario_post_seguindo)
+    
+    
+        
     
     
     

@@ -80,4 +80,9 @@ urlpatterns = [
     path('ver_perfil/<int:id_conta>/', views.ver_perfil, name='ver_perfil'),
     
     
+    path('postagem_seguindo', views.postagem_seguindo, name='postagem_seguindo'),
+    
+    
+    
+    
 ] 
