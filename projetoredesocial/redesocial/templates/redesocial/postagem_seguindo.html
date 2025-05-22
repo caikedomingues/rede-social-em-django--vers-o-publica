@@ -1,113 +1,173 @@
 
 
-<h1>{{titulo}}</h1>
+<!--Template que irá conter as postagens das contas que o usuário
+segue-->
+<!DOCTYPE html>
 
+</html lang="pt-br">
 
-{%if contas_seguidas%}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale 1.0">
+        <title>Rede Social</title>
+    </head>
 
-
-        {%if post.count == 0%}
-
-            <p>As páginas que você segue ainda não possuem posts</p>
+    <body>
         
-        
-        {%else%}
+        <!--Variável que contém a mensagem com o nome do usuário autenticado.-->
+        <h1>{{titulo}}</h1>
 
-            {%for post in post%}
 
-                <p>{{post.dono_postagem.nome}}</p>
+        <!--Primeiro vamos verificar se o usuário segue alguma conta na rede.-->
+        {%if contas_seguidas%}
 
-                {%if post.texto%}
+                <!--Caso o usuário siga alguma conta, vamos verificar se a conta seguida possui algum post. Para isso, vamos usar a função count que irá retornar a quantidade de postagens encontradas.-->
+                {%if post.count == 0%}
 
-                    <p>{{post.texto}}</p>
-
+                    <!--Caso as contas seguidas estejam sem nenhuma postagem, iremos apresentar essa mensagem padrão-->
+                    <p>As páginas que você segue ainda não possuem posts</p>
+                
                 
                 {%else%}
 
-                    <p>Não há texto na postagem</p>
-                
-                {%endif%}
+                    <!--Caso as contas tenham posts, iremios iniciar o processo de acesso a essas colunas paara exibir os seus valores.-->
 
-                {%if post.imagem_postagem%}
+                    <!--Para acessar os valores vamos percorrer a tabela de posts com o objetivo de acessar todas as suas colunas e seus valores.-->
+                    {%for post in post%}
 
-                    <img src="{{post.imagem_postagem.url}}" alt="Imagem da postagem">
+                        <!--Acessando o nome da conta que realizou a postagem.-->
+                        <p>{{post.dono_postagem.nome}}</p>
 
-                {%endif%}
+                        <!--Como os campos da tabela post não são obrigatórios, vamos verificar se a conta possui
+                        determinado atributo como texto, imagem e video -->
 
-                {%if post.video%}
+                        <!--Verificando se a postagem possui um texto-->
+                        {%if post.texto%}
 
-                    <video src="{{post.video.url}}" controls>
-                
-                {%endif%}
+                            <!--Caso a postagem tenha um texto, iremos acessar a coluna de texto com o valor do atributo.-->
+                            <p>{{post.texto}}</p>
 
-                <!--Irá acessar os valores da coluna curtidas da tabela Post-->
-                <p>Likes: {{post.curtidas}}</p>
+                        
+                        {%else%}
 
-                <!--Irá acessar os valores da coluna nao_curtidas da tabela Post-->
-                <p>Deslikes: {{post.nao_curtidas}}</p>
+                            <!--Caso a postagem não tenha tetxo, iremos mostrar esse texto padrão-->
+                            <p>Não há texto na postagem</p>
+                        
+                        {%endif%}
 
-                <!--Irá acessar os valores da coluna quantidade_comentarios da tabela Post-->
-                <p>{{post.quantidade_comentarios}} Comentários</p>
+                        <!--Verificando se a postagem possui imagens-->
+                        {%if post.imagem_postagem%}
 
-                <form action="{%url 'curtir'%}" method="post">
+                            <!--caso a postagem tenha uma imagem, iremos passar para a tag img o caminho da imagem do post. -->
+                            <img src="{{post.imagem_postagem.url}}" alt="Imagem da postagem">
+
+                        {%endif%}
+
+                        <!--Verificando se o post possui algum video.-->
+                        {%if post.video%}
+
+                            <!--Caso a postagem tenha um video, iremos passar para a tag img o caminho do video no post-->
+                            <video src="{{post.video.url}}" controls>
+                        
+                        {%endif%}
+
+                        <!--Irá acessar os valores da coluna curtidas da tabela Post-->
+                        <p>Likes: {{post.curtidas}}</p>
+
+                        <!--Irá acessar os valores da coluna nao_curtidas da tabela Post-->
+                        <p>Deslikes: {{post.nao_curtidas}}</p>
+
+                        <!--Irá acessar os valores da coluna quantidade_comentarios da tabela Post-->
+                        <p>{{post.quantidade_comentarios}} Comentários</p>
+                        
+                        <!--Formulário que irá enviar a requisição 
+                        ao de curtidas ao sistema. A url deve conter
+                        o endereço da view curtir e o método post de envio de dados para o servidor.-->
+                        <form action="{%url 'curtir'%}" method="post">
+                            
+                            <!--Token que irá permitir que o sistema 
+                            não aceite requisições de outros sistemas-->
+                            {%csrf_token%}
+
+                            <!--Input invisivel de nome post_id que irá conter como valor o id da psotagem que está sendo curtidas-->
+                            <input type="hidden" name="post_id" value="{{post.id}}">
+
+                            <!--Botão que irá enviar a requisição-->
+                            <button type="submit">Curtir</button>
+                        </form>
+
+
+                        <!--Formulário que irá enviar a requisição 
+                        ao de deslike ao sistema. A url deve conter
+                        o endereço da view nao_curtir e o método post de envio de dados para o servidor.-->
+                        <form action="{%url 'nao_curtir'%}" method="post">
+
+                            <!--Token que bloqueia requisições de outros sistemas-->
+                            {%csrf_token%}
+
+                            <!--Input invisivel de nome nao_curtir que irá conter como valor o id do post não curtido.-->
+                            <input type="hidden" name="nao_curtir_post" value="{{post.id}}">
+
+                            <!--Botão que irá enviar a requisição ao sistema.-->
+                            <button type="submit">Não curtir</button>
                     
-                    {%csrf_token%}
-                    <input type="hidden" name="post_id" value="{{post.id}}">
-                    <button type="submit">Curtir</button>
-                </form>
+                        </form>
 
-                <form action="{%url 'nao_curtir'%}" method="post">
+                        <!--Link que irá direcionar o usuário para o formulário de inserção de comentários do post 
+                        acessado. Para o direcionamento ocorrer de maneira correta, a url deve conter o id do post que será comentado.-->
+                        <a href="{%url 'comentar_publicacao' post.id%}">
+                            
+                            <!--Botão que irá direcionar o usuário para a página de inserção de comentários.-->
+                            <button type="button">Comentar Publicação</button>
+                        </a>
+                        
 
-                    {%csrf_token%}
-                    <input type="hidden" name="nao_curtir_post" value="{{post.id}}">
+                        <!--Link que irá direcionar o usuário para a página de comentários do post acessado. Para o direcionamento ocorrer de maneira correta, a url deve conter o id do post que será comentado.-->
+                        <a href="{%url 'ver_comentarios' post.id%}">
 
-                    <button type="submit">Não curtir</button>
-            
-                </form>
+                            <!--Botão que irá direcionar o usuário para a página que contém todos os comentários do post-->
+                            <button type="button"> Ver comentários</button>
 
-                <a href="{%url 'comentar_publicacao' post.id%}">
-    
-                    <button type="button">Comentar Publicação</button>
-                </a>
+                        </a>
+                        <!--Formulário que irá enviar a requisição 
+                        de deixar de seguir uma conta ao sistema. A url deve conter o endereço da deixar_de_seguir e o método post de envio de dados para o servidor.-->
+                        <form action="{%url 'deixar_de_seguir'%}" method="post">
+
+                            {%csrf_token%}
+                            <input type="hidden" name="id_conta" value="{{post.dono_postagem.id}}">
+                            <button type="submit">Deixar de seguir</button>
+                            
+                        </form>
+
+                        <a href="{%url 'seguidores_pagina' post.dono_postagem.id%}">
+
+                            <button type="submit">Ver seguidores da página</button>
+
+                        </a>
+
+                        <a href="{%url 'quem_segue' post.dono_postagem.id%}">
+
+                            <button type="submit">Ver quem a página segue</button>
+
+                        </a>
+
+                        <a href="{%url 'ver_perfil' post.dono_postagem.id%}">
+
+                            <button type="submit">Ver perfil da página</button>
+                        </a>
+                    {%endfor%}
+                
+                {%endif%}
+
                 
 
-                <a href="{%url 'ver_comentarios' post.id%}">
+        {%else%}
 
-                    <button type="button"> Ver comentários</button>
+            <p>Você ainda não segue ninguem </p>
 
-                </a>
-
-                <form action="{%url 'deixar_de_seguir'%}" method="post">
-
-                    {%csrf_token%}
-                    <input type="hidden" name="id_conta" value="{{post.dono_postagem.id}}">
-                    <button type="submit">Deixar de seguir</button>
-                    
-                </form>
-
-                <a href="{%url 'seguidores_pagina' post.dono_postagem.id%}">
-
-                    <button type="submit">Ver seguidores da página</button>
-
-                </a>
-
-                <a href="{%url 'quem_segue' post.dono_postagem.id%}">
-
-                    <button type="submit">Ver quem a página segue</button>
-
-                </a>
-
-                <a href="{%url 'ver_perfil' post.dono_postagem.id%}">
-
-                    <button type="submit">Ver perfil da página</button>
-                </a>
-            {%endfor%}
-        
         {%endif%}
 
-        
-
-{%else%}
-
-    <p>Você ainda não segue ninguem </p>
-{%endif%}
+        <p><a href="{%url 'index'%}">Voltar a página inicial</a></p>
+</body>
+</html>
