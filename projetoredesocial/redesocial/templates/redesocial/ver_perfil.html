@@ -88,9 +88,8 @@
         <p><strong>{{numero_seguindo}} seguindo</strong></p>
 
         <!--Formulário que irá enviar a requisição de seguir contas
-        para o servidor. Como não é necessário ir para outra página,
-        iremos enviar os dados para a própria página de seguir.
-        O formulário irá conter o método post que envia dados para
+        para o servidor. Para isso, a url será direcionada para a view 
+        seguir que irá conter essa requisição. O formulário irá conter o método post que envia dados para
         o servidor.-->
         <form action="{%url 'seguir'%}" method="post">
 
@@ -139,29 +138,41 @@
         
          </a>
 
-         <!--Agora, vamos mostrar todos os posts do usuário. Primeiro, vamos verificar se o usuário posts-->
+         <!--Agora, vamos mostrar todos os posts do usuário. Primeiro, vamos verificar se o usuário possui posts em sua página-->
          {%if posts%}
 
+            <!--Caso o usuário tenha posts em sua página, iremos percorrer a tabela de posts da conta com o objetivo de acessar e mostrar todas as postagens da página.-->
             {%for post in posts%}
 
+                <!--Como os campos não são obrigatórios, vamos verificar se a postagem possui todos os campos preenchidos.-->
+
+                <!--Verificando se a postagem possui um texto-->
                 {%if post.texto%}
 
+                    <!--Caso a postagem tenha um texto, iremos acessar a coluna de texto para mostrar na página o conteúdo dessa coluna-->
                     <p>{{post.texto}}</p>
 
                 {%else%}
 
+                    <!--Caso o usuário não tenha inserido um texto, 
+                    vamos apresentar esse texto padrão.-->
                     <p>Não há texto na publicação</p>
 
+                <!--Fim da estrutura if-->
                 {%endif%}
 
+                <!--Verificando se a postagem possui alguma imagem-->
                 {%if post.imagem_postagem%}
 
+                    <!--Caso a postagem tenha imagem, iremos passar para a tag img o caminho da imagem que está armazenada no nosso sistema de arquivos do site.-->
                     <img src="{{post.imagem_postagem.url}}" alt="Foto da publicação">
                 
                 {%endif%}
 
+                <!--Verificando se a postagem possui videos-->
                 {%if post.video%}
 
+                    <!--Se o usuário postar um video, iremos passar para a tag video o caminho do video armazenado no nosso sistema. O controls irá permitir que o usuário possa acessar o controle do video.-->
                     <video src="{{post.video.url}}" controls></video>
 
                 {%endif%}
@@ -175,41 +186,65 @@
                 <!--Irá acessar os valores da coluna quantidade_comentarios da tabela Post-->
                 <p>{{post.quantidade_comentarios}} Comentários</p>
 
+
+                <!--Formulário que irá enviar a requisição de curtidas para o sistema (isso ira incrementar a contagem de curtidas). o action sera direcionada para a view curtir que conterá a requisição de curtir. O formulário irá 
+                conter o método post que insere dados no servidor-->
                 <form action="{%url 'curtir'%}" method="post">
 
+                    <!--Token que possibilita que o sistema receba apenas requisições do nosso site-->
                     {%csrf_token%}
+
+                    <!--Input invisivel de name post_id que irá conter o id do post-->
                     <input type="hidden" name="post_id" value="{{post.id}}">
 
+                    <!--Botão que enviará a requisição ao sistema-->
                     <button type="submit">Curtir</button>
-                </form> 
+                </form>     
 
-                <form action="{%url 'nao_curtir'%}" method="post">
+                <!--Formulário que irá enviar a requisição de não  curtidas para o sistema. O action sera direcionada para a view nao_curtir que conterá a requisição de não curtidas. O formulário irá conter o método post que insere dados no servidor.-->
+                <form action="{%url 'nao_curtir'%}" method="post">4
+
+                    <!--Ira possibilitar que o sistema receba requisições apenas do nosso site-->
                     {%csrf_token%}
+
+                    <!--Input(campo) invisivel de nome nao_curtir_post
+                    que irá conter o id do post não curtido pelo usuário.-->
                     <input type="hidden" name="nao_curtir_post" value="{{post.id}}">
 
+                    <!--Botão que irá enviar a requisição ao servidor.-->
                     <button type="submit">Não curtir</button>
                 </form>
 
+                <!--Link que irá direcionar o usuário para a página de
+                comentários da postagem. Para direcionar o usuário para a página correta, é necessário que o link contenha o id do post acessado-->
                 <a href="{%url 'comentar_publicacao' post.id%}">
 
+                    <!--Botaõ que irá direcionar o usuário para a página.-->
                     <button type="button">Comentar Publicação</button>
                 
                 </a>
 
+                 <!--Link que irá direcionar o usuário para a página de
+                que contém todos os comentários dos usuários. Para direcionar o usuário para a página correta, é necessário que o link contenha o id do post acessado-->
                 <a href="{%url 'ver_comentarios' post.id%}">
 
+                    <!--Botão que irá direcionar o usuário para a página.-->
                     <button type="button">Ver comentários da publicação</button>
 
                 </a>
-
+            
+            <!--Fim da estrutura for-->
             {%endfor%}
          {%else%}
-
+            
+            <!--Caso o usuário não tenha nenhuma postagem, iremos
+            mostrar essa mensagem padrão.-->
             <p>Há página ainda não possui postagens</p>
         
         {%endif%}
          
-
+        
+        <!--Link para voltar a página inicial.-->
         <p><a href="{%url 'index'%}">Voltar a página inicial</a></p>
 
     </body>
