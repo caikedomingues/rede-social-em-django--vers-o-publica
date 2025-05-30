@@ -21,25 +21,32 @@ as postagens de todos os usuários-->
         usando o nome do usuário logado.-->
         <p>{{mensagem_usuario}}</p>
 
+        <!--Link para a página de perfil do usuário logado-->
         <p><a href="{%url 'minhaconta'%}">Visualize a sua conta</a></p>
 
-        <p><a href="{%url 'criarconta'%}">Faça login e acesse a sua conta</a></p>
+        <!--Link para a página de login dos usuários-->
+        <p><a href="{%url 'loginusuario'%}">Faça login e acesse a sua conta</a></p>
 
+        <!--Link para a página de seguidores do usuário-->
         <p><a href="{%url 'meus_seguidores'%}">Visualize os seus seguidores</a></p>
 
+        <!--Link para a página de contas que o usuário segue-->
         <p><a href="{%url 'quem_sigo'%}">Visualize as contas que você segue</a></p>
 
+        <!--Link para a página de criação de posts do usuário que está logado.-->
         <p><a href="{%url 'posts'%}">Faça uma postagem</a></p>
 
+        <!--Link para a página de criação de contas/páginas-->
         <p><a href="{%url 'criarconta'%}">Ja possui um login, mas não
             tem uma conta? Clique aqui</a></p>
-
+        
+        <!--Link para a página de postagens de contas que o usuário segue-->
         <p><a href="{%url 'postagem_seguindo'%}">Ver apenas postagens de contas que você segue</a></p>
 
         <!--Ira conter o link paea a view que encerra a sessão do usuário-->
         <p><a href="{%url 'logoutusuario'%}">Sair da rede social</a></p>
         <!--Agora iremos iniciar o processo de mostrar na tela todos os
-        dados da tabela de postagens do nosso sistema. Primeiro, Vamps verificar se há existência de posts no sistema para ser mostrado-->
+        dados da tabela de postagens do nosso sistema. Primeiro, Vamos verificar se há existência de posts no sistema para ser mostrado-->
         {%if post%}
 
             <!--Caso exista postagens no sistema, vamos percorrer a tabela de posts com o objetivo de acessar as suas colunas
@@ -104,66 +111,120 @@ as postagens de todos os usuários-->
                 
                 
                 <!--Criação dos botões de interação entre o usuário e a postagem-->
+
+                <!--Formulário que irá conter o botão de curtir postagens do sistema.
+                O formulário deverá conter o link para a view curtir e um método post
+                de envio de requisições a servidores.-->
                <form action="{%url 'curtir'%}" method="post">
                     
+                    <!--token que irá bloquear requisições que não são do nosso
+                    sistema.-->
                     {%csrf_token%}
+                    <!--Input invisivel de nome post_id que ira conter como valor
+                    o id da postagem que o usuário está curtindo-->
                     <input type="hidden" name="post_id" value="{{posts.id}}">
+
+                    <!--Botão que irá enviar a requisição ao servidor do sistema.-->
                     <button type="submit">Curtir</button>
                 
                 </form>
 
+                 <!--Formulário que irá conter o botão de 'não curtir' postagens do sistema.
+                O formulário deverá conter o link para a view nao_curtir e um método post
+                de envio de requisições a servidores.-->
                 <form action="{%url 'nao_curtir'%}" method="post">
 
+                    <!--Token que irá bloquear requisições que não são do nosso
+                    sistema.-->
                     {%csrf_token%}
+
+                    <!--Input invisivel de nome nao_curtir_post que terá como valor
+                    o id da postagem que esta recebendo 'deslike'.-->
                     <input type="hidden" name="nao_curtir_post" value="{{posts.id}}">
 
+                    <!--Botão que irá enviar a requisição ao sistema.-->
                     <button type="submit">Não curtir</button>
 
                 </form>
 
+                <!--Link para o formulário de comentários do post acessado pelo usuário.
+                O link deve conter o id da postagem acessada-->
                 <a href="{%url 'comentar_publicacao' posts.id%}">
                     
-                  
+                  <!--Botão que irá transferir o usuário para a página de formulário
+                  de comentários-->
                    <button type="button">Comentar Publicação</button>
                    
                 </a>
 
+                <!--Link para a página de comentários da postagem. O link deve conter
+                o id da postagem acessada-->
                 <a href="{%url 'ver_comentarios' posts.id%}">
+
+                    <!--Botão que irá transferir o usuário para a página que contém os 
+                    comentários-->
                     <button type="button"> Ver comentários</button>
                 </a>
                 
-                
+                <!--Formulário que irá conter o botão de seguir as contas
+                da rede social. O form devera conter o link para a view 'seguir'
+                e o metodo post para envio de dados ao servidor-->
                 <form action="{%url 'seguir'%}" method="post">
 
+                    <!--Token que irá bloquear requisições que não são do nosso sistema.-->
                     {%csrf_token%}
+                    <!--Input invisivel de nome id_conta que irá ter como valor o id da conta
+                    que o usuário irá seguir.-->
                     <input type="hidden" name="id_conta" value="{{posts.dono_postagem.id}}">
+
+                    <!--Botão que irá enviar a requisição ao sistema.-->
                     <button type="submit">Seguir</button>
                     
                 </form>
 
-                
+                <!--Form que irá conter o botão para deixar de seguir uma conta.
+                O form devera conter o link para a view 'deixar_de_seguir' e O
+                metodo post de envio de dados para o servidor.-->
                 <form action="{%url 'deixar_de_seguir'%}" method="post">
 
+                    <!--Token que irá bloquear requisições que não são do nosso sistema.-->
                     {%csrf_token%}
+
+                    <!--Input invisivel de nome id_conta que irá conter como valor o id da conta
+                    que o usuário ira deixar de seguir.-->
                     <input type="hidden" name="id_conta" value="{{posts.dono_postagem.id}}">
+
+                    <!--Botão que envia a requisição ao servidor-->
                     <button type="submit">Deixar de seguir</button>
                     
                 </form>
 
+                <!--Link para a página que irá conter os nomes das contas que uma determinada
+                conta segue. O link devera conter o id da conta que o usuário quer verificar
+                os seguidores.-->
                 <a href="{%url 'seguidores_pagina' posts.dono_postagem.id%}">
 
+
+                    <!--Botão que irá transferir o usuário para a página de seguidores de uma
+                    conta.-->
                     <button type="submit">Ver seguidores da página</button>
 
                 </a>
 
+                <!--Link para a página de contas que uma determinada página segue.
+                O link deve conter o id da conta acessada pelo usuário.-->
                 <a href="{%url 'quem_segue' posts.dono_postagem.id%}">
 
+                    <!--Botão que irá enviar a requisição ao sistema.-->
                     <button type="submit">Ver quem a página segue</button>
 
                 </a>
 
+                <!--Link para a página de perfil da conta acessafa pelo usuário.
+                O link deve conter o id da conta que fez a postagem -->
                 <a href="{%url 'ver_perfil' posts.dono_postagem.id%}">
 
+                    <!--Botão que irá enviar a requisição ao servidor do sistema-->
                     <button type="submit">Ver perfil da página</button>
                 </a>
                 

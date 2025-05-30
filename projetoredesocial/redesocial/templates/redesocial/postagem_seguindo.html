@@ -134,40 +134,63 @@ segue-->
                         de deixar de seguir uma conta ao sistema. A url deve conter o endereço da deixar_de_seguir e o método post de envio de dados para o servidor.-->
                         <form action="{%url 'deixar_de_seguir'%}" method="post">
 
+                            <!--token que irá bloquear requisições que não são do nosso sistema-->
                             {%csrf_token%}
+
+                            <!--Input invivisivel de nome id_conta que irá conter o id da conta que 
+                            o usuário irá deixar de seguir.-->
                             <input type="hidden" name="id_conta" value="{{post.dono_postagem.id}}">
+
+                            <!--Botão que irá enviar a requisição ao servidor-->
                             <button type="submit">Deixar de seguir</button>
                             
                         </form>
 
+                        <!--Link que irá levar o usuário para a página que contém os nomes
+                        das contas que seguem a página acessada pelo usuário. O Link
+                        deve conter o id da conta acessada pelo usuário.-->
                         <a href="{%url 'seguidores_pagina' post.dono_postagem.id%}">
 
+                            <!--Botão que irá enviar a requisição ao sistema-->
                             <button type="submit">Ver seguidores da página</button>
 
                         </a>
 
+                        <!--Link que ira transferir o usuário para a página que 
+                        contém os nomes das contas que a página acessada segue.
+                        O link deve conter o id da página acessada pelo usuário-->
                         <a href="{%url 'quem_segue' post.dono_postagem.id%}">
 
+                            <!--Botão que irá transferir o usuário para a página.-->
                             <button type="submit">Ver quem a página segue</button>
 
                         </a>
 
+                        <!--Link que irá transferir o usuário para o perfil da conta acessada.
+                        O link deve conter o id da conta que o usuário quer visualizar.-->
                         <a href="{%url 'ver_perfil' post.dono_postagem.id%}">
 
+                            <!--Botão que irá enviar a requisição ao servidor do sistema.-->
                             <button type="submit">Ver perfil da página</button>
                         </a>
+
+                        <!--Fim da estrutura for-->
                     {%endfor%}
                 
+                <!--Fim da estrutura if-->
                 {%endif%}
 
                 
 
         {%else%}
-
+            
+            <!--Caso o usuário não siga nenhuma página, vamos apresentar essa mensagem
+            padrão-->
             <p>Você ainda não segue ninguem </p>
 
         {%endif%}
-
+        
+        <!--Link para voltar a página inicial.-->
         <p><a href="{%url 'index'%}">Voltar a página inicial</a></p>
 </body>
 </html>
