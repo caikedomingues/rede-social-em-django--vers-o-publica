@@ -13,6 +13,9 @@
 
         <title>Rede Social</title>
 
+      <!--Link do bootstrap que irá estilizar a página-->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+
 
     </head>
 
@@ -23,23 +26,46 @@
         <!--Formulário que irá permitir que usuário insira as informações do seu
         login. O formulário ira enviar as informações para a própria página e terá
         o método post (método de inserção de dados.)-->
-        <form action="{%url 'loginusuario'%}" method="post">
 
-            <!--Comando que irá garantir que o sistema aceite requisições apemas
-            do nosso próprio sistema-->
-            {%csrf_token%}
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <h3>Login</h3>
+                        </div>
+                        <div class="card-body">
 
-            <!--ira formatar os dados inseridos como paragráfo.-->
-            {{form.as_p}}
+                                <!--Formulário que irá receber as informações de login do usuário. O 
+                                formulário deverá conter o link para 
+                                a view login de usuário e o método post de envio de dados para o servidor.-->
+                                <form action="{%url 'loginusuario'%}" method="post">
 
-            <!--Botão que irá enviar os dados para o servidor-->
-            <button type="submit">Entrar</button>
-            
-        </form>
-        <!--Link para a pagina de cadastros-->
-        <p><a href="{%url 'criarusuario'%}">Não tem um login? clique aqui</a></p>
+                                    <!--Comando que irá garantir que o sistema aceite requisições apemas
+                                    do nosso próprio sistema-->
+                                    {%csrf_token%}
 
-        <!--Link para retornar a página inicial-->
-        <p><a href="{%url 'index'%}">Voltar a página inicial</a></p>
+                                    <!--ira formatar os dados inseridos como paragráfo.-->
+                                    {{form.as_p}}
+
+                                    <!--Botão que irá enviar os dados para o servidor-->
+                                    <div class="d-grid gap-2 mb-3">
+                                        <button type="submit" class="btn btn-primary">Entrar</button>
+                                    </div>
+                                    
+                                </form>
+
+                                <div class="text-center">
+                                    <!--Link para a pagina de cadastros-->
+                                    <p class="mb-1"><a href="{%url 'criarusuario'%}">Não tem um login? clique aqui</a></p>
+
+                                    <!--Link para retornar a página inicial-->
+                                    <p class="mb-0"><a href="{%url 'index'%}">Voltar a página inicial</a></p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
     </body>
 </html>
