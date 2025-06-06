@@ -8,171 +8,212 @@
         <meta name="viewport" content="width=device-width, initial-scale 1.0">
         <meta http-equiv="X-UA Compatible" content="IE=edge">
         <title>Rede Social</title>
+
+        <!--Link do bootstrap que irá estilizar a página-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+
     </head>
 
     <body>
 
-        <!--Irá conter o nome do usuário logado-->
-        <h1>{{nome_usuario}}</h1>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body text-center">
 
-        <!--Nessa página iremos mostrar as principais informações sobre a a conta do usuário.-->
+                            <!--Irá conter o nome do usuário logado-->
+                            <h1 class="display-4 mb-3">{{nome_usuario}}</h1>
 
-        <!--Primeiro vamos verificar se o usuário possui uma foto de perfil -->
-         {%if conta.foto_perfil%}
+                            <!--Nessa página iremos mostrar as principais informações sobre a a conta do usuário.-->
 
-            <!--Caso o usuário tenha registrado uma foto de perfil, iremos
-            passar para o source da tag img o caminho da pasta que armazena
-            fotos de perfis de usuários.-->
-            <img src="{{conta.foto_perfil.url}}" alt="foto de perfil">
+                            <!--Primeiro vamos verificar se o usuário possui uma foto de perfil -->
+                            {%if conta.foto_perfil%}
 
-        <!--Fim da estrutura if-->
-         {%endif%}
-          
-         <h2>Biografia</h2>
-         <!--Verificando se o usuário adicionou uma biografia-->
-         {%if conta.biografia%}
+                                <!--Caso o usuário tenha registrado uma foto de perfil, iremos
+                                passar para o source da tag img o caminho da pasta que armazena
+                                fotos de perfis de usuários.-->
+                                <img src="{{conta.foto_perfil.url}}" alt="foto de perfil" class="profile-img mb03">
 
-            <!--Se o usuário registrar sua biografia, iremos acessar
-            no sistema a coluna de biografias com o objetivo de mostrar
-            o dado registrado pelo usuário na tabela-->
-            <p>{{conta.biografia}}</p>
-        
-        {%else%}
+                            <!--Fim da estrutura if-->
+                            {%endif%}
+                            
+                            <div class="row justify-content-center mb-4">
+                                <div class="col-sm-6 col-md-4 mb-3">
+                                    <h2 class="h5 text-muted">Biografia</h2>
+                                    <!--Verificando se o usuário adicionou uma biografia-->
+                                    {%if conta.biografia%}
 
-            <!--Se o usuário não registrar nenhuma biografia, iremos
-            apresentar essa mensagem padrão.-->
-            <p>Não há biografia</p>
-        
-        {%endif%}
+                                        <!--Se o usuário registrar sua biografia, iremos acessar
+                                        no sistema a coluna de biografias com o objetivo de mostrar
+                                        o dado registrado pelo usuário na tabela-->
+                                        <p class="card-text">{{conta.biografia}}</p>
+                                    
+                                    {%else%}
 
-        <h2>Interesses</h2>
-         
-        <!--Iremos verificar se o usuário registrou algo
-        no campo de interesses-->
-        {%if conta.interesses%}
+                                        <!--Se o usuário não registrar nenhuma biografia, iremos
+                                        apresentar essa mensagem padrão.-->
+                                        <p class="text-muted">Não há biografia</p>
+                                    
+                                    {%endif%}
+                                </div>
+                            
+                            <div class="col-sm-6 col-md-4 mb-3">
 
-            <!--Se o usuário registrar algo no campo de interesses, 
-            iremos acessar no sistema a coluna de biografias com o 
-            objetivo de mostrar o dado registrado pelo usuário na tabela-->
-            <p>{{conta.interesses}}</p>
-        
-        {%else%}
+                                <h2 class="hs text-muted">Interesses</h2>
+                                
+                                <!--Iremos verificar se o usuário registrou algo
+                                no campo de interesses-->
+                                {%if conta.interesses%}
 
-            <!--Se o usuário não registrar nada no campo de 
-            interesses, iremos mostrar esse texto padrão-->
-            <p>Não há interesses</p>
-        
-        
-        {%endif%}
+                                    <!--Se o usuário registrar algo no campo de interesses, 
+                                    iremos acessar no sistema a coluna de biografias com o 
+                                    objetivo de mostrar o dado registrado pelo usuário na tabela-->
+                                    <p class="card-text">{{conta.interesses}}</p>
+                                
+                                {%else%}
 
-        <h2>Estado civil</h2>
+                                    <!--Se o usuário não registrar nada no campo de 
+                                    interesses, iremos mostrar esse texto padrão-->
+                                    <p class="text-muted">Não há interesses</p>
+                                
+                                
+                                {%endif%}
 
-        <!--Iremos verificar se o usuário adicionou informações no campo
-        de estado civil-->
-        {%if conta.estado_civil%}
+                            </div> 
 
-            <!--Se o usuário passar informações ao campo de estado civil,
-             iremos acessar no sistema a coluna de biografias com o objetivo 
-             de mostrar o dado registrado pelo usuário na tabela-->
-            <p>{{conta.estado_civil}}</p>
-        
-        {%else%}
+                            <div class="col-sm-6 col-md-4 mb-3">
+                                <h2 class="h5 text-muted">Estado civil</h2>
 
-            <!--mensagem padrão que será mostrada caso o usuário não informe
-            nenhum dado no campo de estado civil-->
-            <p>Não há estado civil</p>
+                                <!--Iremos verificar se o usuário adicionou informações no campo
+                                de estado civil-->
+                                {%if conta.estado_civil%}
 
-        {%endif%}
-        
-        <!--Mostrando o numero de sguidores da conta-->
-        <p><strong>{{conta.numero_seguidores}} seguidores</strong></p>
-        
-        <!--Mostrando o número de contas que o usuário segue na rede social-->
-        <p><strong>{{conta.numero_seguindo}}seguindo</strong></p>
+                                    <!--Se o usuário passar informações ao campo de estado civil,
+                                    iremos acessar no sistema a coluna de biografias com o objetivo 
+                                    de mostrar o dado registrado pelo usuário na tabela-->
+                                    <p class="card-text">{{conta.estado_civil}}</p>
+                                
+                                {%else%}
+
+                                    <!--mensagem padrão que será mostrada caso o usuário não informe
+                                    nenhum dado no campo de estado civil-->
+                                    <p class="text-muted">Não há estado civil</p>
+
+                                {%endif%}
+
+                            </div>
+                        </div>
+                            
+                            <div class="d-flex justify-content-center gap-4 mb-4">
+
+                                <!--Mostrando o numero de sguidores da conta-->
+                                <p class="lead mb-0"><strong>{{conta.numero_seguidores}} seguidores</strong></p>
+                                
+                                <!--Mostrando o número de contas que o usuário segue na rede social-->
+                                <p class="lead mb-0"><strong>{{conta.numero_seguindo}} seguindo</strong></p>
+
+                            </div>
 
 
-        <!--Após imprimir as informações do usuário, vamos mostrar todas as postagens
-        realizadas por ele(a).-->
+                          <h2 class="h3 mb-4 text-center">Minhas Postagens</h2>
 
-        <!--Antes de mostrar as postagens iremos verificar se o usuário logado 
-        já realizou alguma postagem na rede-->
-        {%if posts%}
+                            <!--Após imprimir as informações do usuário, vamos mostrar todas as postagens
+                            realizadas por ele(a).-->
 
-            <!--Para iniciar o processo, precisamos percorrer toda a tabela de posts
-            com o objetivo de acessar todas as colunas e seus valores.-->
-            {%for post in posts%}
+                            <!--Antes de mostrar as postagens iremos verificar se o usuário logado 
+                            já realizou alguma postagem na rede-->
+                            {%if posts%}
 
-                <!--Cada postagem terá a sua próppri sessão com o objetivo de 
-                diferenciar as postagens.-->
-                <section>
-                    <!--Como os campos de criação de posts não são obrigatórios
-                    vamos verificar se o usuário preencheu cada campo do form
-                    de criação de posts-->
+                                <!--Para iniciar o processo, precisamos percorrer toda a tabela de posts
+                                com o objetivo de acessar todas as colunas e seus valores.-->
+                                {%for post in posts%}
 
-                    <!--verificando se o usuário criou um texto para a sua postagem-->
-                    {%if post.texto%}
+                                    <div class="card mb-4 shadow-sm">
+                                        <div class="card-body">
+                                          <!--Cada postagem terá a sua próppri sessão com o objetivo de 
+                                        diferenciar as postagens.-->
+                                        <section>
+                                            <!--Como os campos de criação de posts não são obrigatórios
+                                            vamos verificar se o usuário preencheu cada campo do form
+                                            de criação de posts-->
 
-                        <!--Caso o usuário tenha preenchido o campo de texto,
-                        iremos acessar a coluna de textos e mostrar o conteúdo
-                        na tela.-->
-                        <p>{{post.texto}}</p>
+                                            <!--verificando se o usuário criou um texto para a sua postagem-->
+                                            {%if post.texto%}
 
-                    {%else%}
-                        <!--Se o usuário não criar um texto, iremos mostrar esse texto
-                        padrão.-->
-                        <p>A publicação não tem um texto</p>
+                                                <!--Caso o usuário tenha preenchido o campo de texto,
+                                                iremos acessar a coluna de textos e mostrar o conteúdo
+                                                na tela.-->
+                                                <p class="card-text mb-3">{{post.texto}}</p>
 
-                        <!--FIm da estrutura if-->
-                    {%endif%}
+                                            {%else%}
+                                                <!--Se o usuário não criar um texto, iremos mostrar esse texto
+                                                padrão.-->
+                                                <p class="text-muted fst-italic">A publicação não tem um texto</p>
 
-                    <!--Verificando se o usuário adicionou uma imagem a sua postagem-->
-                    {%if post.imagem_postagem%}
+                                                <!--FIm da estrutura if-->
+                                            {%endif%}
 
-                        <!--Se o usuário adicionar uma imagem, iremos passar para o src
-                        da tag img, o caminho da pasta que irá conter a imagem enviada
-                        pelo usuário.-->
-                        <img src="{{post.imagem_postagem.url}}" alt="Imagem da postagem">
+                                            <!--Verificando se o usuário adicionou uma imagem a sua postagem-->
+                                            {%if post.imagem_postagem%}
 
-                    {%endif%}
+                                                <!--Se o usuário adicionar uma imagem, iremos passar para o src
+                                                da tag img, o caminho da pasta que irá conter a imagem enviada
+                                                pelo usuário.-->
+                                                <img src="{{post.imagem_postagem.url}}" alt="Imagem da postagem" class="post-media img-fluid">
 
-                    <!--Verificando se o usuário adicionou um video em sua postagem-->
-                    {%if post.video%}
+                                            {%endif%}
 
-                        <!--Se o usuário adicionar videos em sua postagem, iremos passar
-                        para o source da tag img o caminho do arquivo que salva videos
-                        enviados pelos usuários-->
-                        <video src="{{post.video.url}}" controls></video><br>
+                                            <!--Verificando se o usuário adicionou um video em sua postagem-->
+                                            {%if post.video%}
 
-                    {%endif%}
+                                                <div class="ratio ratio-16x9 mb-3">
+                                                    <!--Se o usuário adicionar videos em sua postagem, iremos passar
+                                                    para o source da tag img o caminho do arquivo que salva videos
+                                                    enviados pelos usuários-->
+                                                    <video src="{{post.video.url}}" class="w-100" controls></video><br>
+                                                
+                                            </div>
 
-                    <!--Após as postagens, vamos mostrar na tela 
-                    a quantidade de interações de usuários com A
-                    postagem.-->
+                                        {%endif%}
 
-                    <!--Mostrando a quantidade de curtidas da postagem-->
-                    <p>Likes: {{post.curtidas}}</p>
-                    <!--Mostrando a quantidade de usuários que não curtiram
-                    a postagem-->
-                    <p>Deslikes: {{post.nao_curtidas}}</p>
-                    <!--Mostrando a quantidade de comentários da postagem-->
-                    <p>{{post.quantidade_comentarios}} comentários</p>
+                                        <hr class="my-3">
 
-                    <!--Criação dos botões de interação do usuário com a postagem-->
-                    <button type="submit">Curtir</button>
-                    <button type="submit">Não curtir</button>
-                    <button type="submit">Comentar publicação</button>
-                    <button type="submit"> Ver comentários</buton>
-                    <button type="submit"> Seguir</button>
-                    <button type="submit">Deixar de seguir</button>
+                                        <!--Após as postagens, vamos mostrar na tela 
+                                        a quantidade de interações de usuários com A
+                                        postagem.-->
+                                        
+                                        <div class="d-flex justify-content-around text-center mb-3">
 
-                </section>
-                
-            {%endfor%}
-        {%else%}
-            <p>Você ainda não fez nenhuma postagem</p>
-        {%endif%}
-        <section>
+                                            <!--Mostrando a quantidade de curtidas da postagem-->
+                                            <p>Likes: {{post.curtidas}}</p>
+                                            <!--Mostrando a quantidade de usuários que não curtiram
+                                            a postagem-->
+                                            <p>Deslikes: {{post.nao_curtidas}}</p>
+                                            <!--Mostrando a quantidade de comentários da postagem-->
+                                            <p>{{post.quantidade_comentarios}} comentários</p>
 
-        </section>
+                                        </div>
+
+                                        <div class="d-flex flex-wrap justify-content-center post-actions">
+                                            <!--Criação dos botões de interação do usuário com a postagem-->
+                                            <button class="btn btn-outline-primary btn-sm" type="submit">Curtir</button>
+                                            <button class="btn btn-outline-secondary btn-sm" type="submit">Não curtir</button>
+                                            <button class="btn btn-outline-info btn-sm" type="submit">Comentar publicação</button>
+                                            <button class="btn btn-outline-dark btn-sm"  type="submit"> Ver comentários</buton>
+                                        </div>
+                                    
+                                    </section>
+                                </div>
+
+                                {%endfor%}
+                            {%else%}
+                                
+                                <!--Caso o usuário não tenha postagens iremos mostrar essa mensagem-->
+                                 <div class="alert alert-info text-center" role="alert">
+                                     <p>Você ainda não fez nenhuma postagem</p>
+                                 </div>
+                            {%endif%}
+                            
     </body>
 </html>
