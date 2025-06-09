@@ -8,37 +8,51 @@
         <meta name="viewport" content="width=device-width, initial-scale 1.0">
         <meta http-equiv="X-UA Compatible" content="IE=edge">
         <title>Rede Social</title>
+
+        <!--Link do bootstrap que irá estilizar a nossa página-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     </head>
 
 
     <body>
 
-        <!--Ira apresentar a mensagem ao usuário-->
-        <h1>{{mensagem_usuarios}}</h1>
+        <div class="container mt-4">
 
-        <!--Ira mostrar a quantidade de contas que a página segue.-->
-        <p>A página segue {{numeros_quem_segue}} contas</p>
+            <!--Ira apresentar a mensagem ao usuário-->
+            <h1 class="mb-3">{{mensagem_usuarios}}</h1>
 
-        <!--Antes de acessarmos os valores, vamos verificar se a página
-        segue alguma conta.-->
-        {%if quem_a_pagina_segue%}
+            <!--Ira mostrar a quantidade de contas que a página segue.-->
+            <p class="lead mb-4">A página segue <strong class="text-primary">{{numeros_quem_segue}}</strong> contas</p>
 
-            <!--Se as contas seguidas existirem, iremos percorrer a coluna
-            com o objetivo de acessar os valores-->
-            {%for segue in quem_a_pagina_segue%}
+            <!--Antes de acessarmos os valores, vamos verificar se a página
+            segue alguma conta.-->
+            {%if quem_a_pagina_segue%}
 
-                <!--Após acessar os valores, vamos mostrar o nome de cada conta.-->
-                   <p>{{segue.nome}}</p>
-            
-            <!--Fim da estrutira for-->
-            {%endfor%}
-        {%else%}
+                <div class="list-group">
+                    <!--Se as contas seguidas existirem, iremos percorrer a coluna
+                    com o objetivo de acessar os valores-->
+                    {%for segue in quem_a_pagina_segue%}
 
-                <!--Mensagem padrão que será apresentada caso a página
-                não siga nenhuma conta.-->
-                <p>A página ainda não segue nenhuma conta</p>
+                        <!--Após acessar os valores, vamos mostrar o nome de cada conta.-->
+                        <p class="list-group-item list-group-item-action">{{segue.nome}}</p>
+                    
+                    <!--Fim da estrutira for-->
+                    {%endfor%}
 
-        <!--Fim da estrutura if-->
-        {%endif%}
+                </div>
+            {%else%}
+
+                    <!--Mensagem padrão que será apresentada caso a página
+                    não siga nenhuma conta.-->
+                    <p class="alert alert-info">A página ainda não segue nenhuma conta</p>
+
+            <!--Fim da estrutura if-->
+            {%endif%}
+
+            <p class="mt-4 text-center">
+                <!--Link para voltar a página inicial-->
+                <a href="{% url 'index' %}" class="btn btn-secondary">Voltar à página inicial</a>
+            </p>
+        </div>
     </body>
 </html>
