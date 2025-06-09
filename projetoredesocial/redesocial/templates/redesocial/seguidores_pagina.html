@@ -10,37 +10,50 @@ pelo usuário.-->
         <meta name="viewport" content="width=device-width, initial-scale 1.0">
         <meta http-equiv="X-UA Compatible" content="IE=edge">
         <title>Rede Social</title>
+
+        <!--Link do boostrap que irá estilizar a página-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+
     </head>
 
 
     <body>
 
-        <!--Ira mostrar a mensagem definida na view.-->
-        <h1>{{mensagem_usuario}}<h1>
-        
-        <!--Irá mostrar o numero de seguidores da página escolhida pelo usuário.-->
-        <p>A pagina possui {{numero_seguidores_conta}} seguidores</p>
-        
-        <!--Antes de mostrar os dados, vamos verificar se a página
-        escolhida possui seguidores-->
-        {%if seguidores_conta%}
-
-            <!--Se a página tiver seguidores iremos percorrer a coluna de seguidores da conta para acessar os valores.-->
-            {%for seguidores in seguidores_conta%}
-
-                <!--Irá acessar o nome das conats que seguem o a página escolhida pelo usuário.-->
-                <p>{{seguidores.nome}}
+        <div class="container mt-4">
+            <!--Ira mostrar a mensagem definida na view.-->
+            <h1 class="mb-3">{{mensagem_usuario}}<h1>
             
-            <!--Fim da estrutura for-->
-            {%endfor%}
-        
-        {%else%}
+            <!--Irá mostrar o numero de seguidores da página escolhida pelo usuário.-->
+            <p class="lead mb-4">A pagina possui<strong class="text-primary"> {{numero_seguidores_conta}}</strong> seguidores</p>
             
-            <!--Caso a página escolhida não tenha seguidores iremos apresentar essa mensagem padrão-->
-            <p>A página ainda não possui seguidores</p>
-        
-        <!--Fim da estrutura if-->
-        {%endif%}
+            <!--Antes de mostrar os dados, vamos verificar se a página
+            escolhida possui seguidores-->
+            {%if seguidores_conta%}
+
+                <div class="list-group">
+                    <!--Se a página tiver seguidores iremos percorrer a coluna de seguidores da conta para acessar os valores.-->
+                    {%for seguidores in seguidores_conta%}
+
+                        <!--Irá acessar o nome das conats que seguem o a página escolhida pelo usuário.-->
+                        <p class="list-group-item list-group-item-action">{{seguidores.nome}}
+                    
+                    <!--Fim da estrutura for-->
+                    {%endfor%}
+                </div>
+            
+            {%else%}
+                
+                <!--Caso a página escolhida não tenha seguidores iremos apresentar essa mensagem padrão-->
+                <p class = "alert alert-info">A página ainda não possui seguidores</p>
+            
+            <!--Fim da estrutura if-->
+            {%endif%}
+            
+            <!--Link para voltar a página inicial-->
+            <p class="mt-4 text-center">
+               <a href="{%url 'index'%}" class="btn btn-secondary">Voltar a página inicial</a>
+            </p>
+        </div>
 
     </body>
 
